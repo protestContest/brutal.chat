@@ -4,9 +4,11 @@ const favicon = require('serve-favicon');
 const logger = require('morgan');
 const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
+const webpack = require('webpack');
+const webpackDevMiddleware = require('webpack-dev-middleware');
+const webpackHotMiddleware = require('webpack-hot-middleware');
 
 const routes = require('./routes/index');
-const users = require('./routes/users');
 
 const app = express();
 
@@ -22,8 +24,21 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
+if (app.get('env') === 'development') {
+  const config = require('./webpack.config.dev');
+  const compiler = webpack(config);
+  app.use(webpackDevMiddleware(compiler, {
+    hot: true,
+    publicPath: config.output.publicPath,
+    stats: { colors: true }
+  }));
+  app.use(webpackHotMiddleware(compiler, {
+    log: console.log,
+    path: '/__webpack_hmr'
+  }));
+}
+
 app.use('/', routes);
-app.use('/users', users);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
