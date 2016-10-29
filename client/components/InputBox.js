@@ -15,7 +15,7 @@ class InputBox extends React.PureComponent {
         fontFamily: 'monospace',
         fontSize: '20px',
         minWidth: '20em',
-        maxWidth: '40em'
+        maxWidth: '30em'
       }
     };
 

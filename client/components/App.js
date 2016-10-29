@@ -36,12 +36,13 @@ class App extends React.PureComponent {
       width: '100vw',
       height: '100vh',
       padding: '2vh 2vw',
-      alignItems: 'flex-end'
+      alignItems: 'flex-end',
+      overflowY: 'auto'
     };
 
     return (
       <div ref='container' style={style} onKeyUp={this.onKeyPress} tabIndex='0'>
-        <MessageBox>Hello.</MessageBox>
+        <MessageBox message='asdf' />
         <InputBox />
       </div>
     );

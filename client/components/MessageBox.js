@@ -1,10 +1,20 @@
 import React from 'react';
+import { connect } from 'react-redux';
 
-export default class MessageBox extends React.PureComponent {
+class MessageBox extends React.PureComponent {
   render() {
     const styles = {
       container: {
-        margin: '1em 0'
+        margin: '1em 0',
+        position: 'relative'
+      },
+      title: {
+        position: 'absolute',
+        fontSize: '0.8em',
+        background: 'white',
+        top: '-0.4em',
+        left: '0.8em',
+        padding: '0 0.5em'
       },
       box: {
         display: 'inline-block',
@@ -12,16 +22,24 @@ export default class MessageBox extends React.PureComponent {
         padding: '0.75em',
         fontFamily: 'monospace',
         fontSize: '20px',
-        minWidth: '20em'
+        minWidth: '20em',
+        maxWidth: '30em'
       }
     };
 
     return (
       <div style={styles.container}>
         <span style={styles.box}>
-          {this.props.children}
+          <span style={styles.title}>{this.props.message.author}</span>
+          {this.props.message.content}
         </span>
       </div>
     );
   }
 }
+
+const mapStateToProps = (state, ownProps) => ({
+  message: state.messages.find((message) => message.id === ownProps.message)
+});
+
+export default connect(mapStateToProps)(MessageBox);
