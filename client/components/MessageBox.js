@@ -41,9 +41,12 @@ class MessageBox extends React.PureComponent {
   }
 }
 
-const mapStateToProps = (state, ownProps) => ({
-  message: state.messages.find((message) => message.id === ownProps.message),
-  user: state.user
-});
+const mapStateToProps = (state, ownProps) => {
+
+  return ({
+    message: state.messages.find((message) => message.id === ownProps.message),
+    user: state.user
+  });
+};
 
 export default connect(mapStateToProps)(MessageBox);

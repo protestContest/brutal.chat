@@ -4,12 +4,12 @@ module.exports = function(server) {
   const io = socketIo(server);
 
   io.on('connection', (socket) => {
-    socket.on('message', (message) => {
-      socket.broadcast.send(message);
+    socket.on('key', (key) => {
+      console.log('sending key');
+      socket.broadcast.emit('key', key);
     });
 
     socket.on('joined', (username) => {
-      console.log(username + ' joined');
       socket.broadcast.emit('joined', username);
     });
   });

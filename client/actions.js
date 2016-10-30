@@ -1,20 +1,25 @@
 export const types = {
-  SOCKET_MESSAGE: 'SOCKET_MESSAGE',
+  RECEIVE_KEY: 'RECEIVE_KEY',
   SEND_KEY: 'SEND_KEY',
   NEW_MESSAGE: 'NEW_MESSAGE',
   USER_JOINED: 'USER_JOINED'
 };
 
-export function receiveMessage(message) {
+export function receiveKey(keyInfo) {
+  console.log(keyInfo);
   return {
-    type: types.SOCKET_MESSAGE,
-    payload: message
+    type: types.RECEIVE_KEY,
+    payload: keyInfo
   };
 }
 
 export function sendKey(key) {
-  window.socket.send(key);
-  return { type: types.SEND_KEY, payload: key };
+  return (dispatch, getState) => {
+    const { user, inputMessage } = getState();
+
+    window.socket.emit('key', { messageId: inputMessage, key, author: user });
+    return dispatch({ type: types.SEND_KEY, payload: { messageId: inputMessage, key, author: user } });
+  };
 }
 
 export function newMessage() {
@@ -22,6 +27,5 @@ export function newMessage() {
 }
 
 export function userJoined(username) {
-  console.log(username + ' joined');
   return { type: types.USER_JOINED, payload: username };
 }

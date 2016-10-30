@@ -6,7 +6,7 @@ const defaultState = {
     /*{
       id: 'asdf',
       content: 'Hello',
-      author: 'JohnDoe',
+      author: 'quietly',
       timestamp: Date.now()
     }*/
   ],
@@ -24,10 +24,23 @@ const defaultState = {
 export default function(state = defaultState, action) {
   switch(action.type) {
   case types.SEND_KEY:
-    return addKey(state, action.payload);
+    const messages = addKey(state.messages, action.payload);
+    const inputMessage = messages[messages.length - 1].id;
+
+    return {
+      ...state,
+      messages,
+      inputMessage
+    };
+
+  case types.RECEIVE_KEY:
+    return {
+      ...state,
+      messages: addKey(state.messages, action.payload)
+    };
 
   case types.NEW_MESSAGE:
-    const newMessage = createMessage(state.user);
+    const newMessage = createMessage(null, state.user);
 
     return {
       ...state,
@@ -57,13 +70,17 @@ export default function(state = defaultState, action) {
 }
 
 function getUserName() {
-  return usernames[Math.floor(Math.random() * usernames.length)];
+  const adjective = usernames.adjectives[Math.floor(Math.random() * usernames.adjectives.length)];
+  const animal = usernames.animals[Math.floor(Math.random() * usernames.animals.length)];
+
+  return adjective + animal;
 }
 
-function addKey(state, key) {
-  const message = (state.inputMessage)
-    ? { ...state.messages.find(message => message.id === state.inputMessage) }
-    : createMessage(state.user);
+function addKey(messages, { messageId, key, author }) {
+  const foundMessage = messages.find(message => message.id === messageId);
+  let message = (foundMessage)
+    ? {...foundMessage}
+    : createMessage(messageId, author);
 
   if (key === 'Backspace') {
     message.content = message.content.slice(0, -1);
@@ -71,19 +88,15 @@ function addKey(state, key) {
     message.content += key;
   }
 
-  return {
-    ...state,
-    inputMessage: message.id,
-    messages: [
-      ...state.messages.filter(currentMessage => currentMessage.id !== message.id),
-      message
-    ]
-  };
+  return [
+    ...messages.filter(currentMessage => currentMessage.id !== message.id),
+    message
+  ];
 }
 
-function createMessage(author) {
+function createMessage(id, author) {
   return {
-    id: author + '-' + (new Date().valueOf()),
+    id: id || author + '-' + (new Date().valueOf()),
     author: author,
     content: '',
     timestamp: Date.now()
