@@ -1,12 +1,13 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { sendKey, newMessage } from '../actions';
+import { sendKey, newMessage, invalidateInput } from '../actions';
 import MessageBox from './MessageBox';
 import EventBox from './EventBox';
 
 class App extends React.PureComponent {
   constructor(props) {
     super(props);
+    this.state = { timeout: null };
     this.onKeyPress = this.onKeyPress.bind(this);
   }
 
@@ -15,6 +16,8 @@ class App extends React.PureComponent {
   }
 
   onKeyPress(event) {
+    clearTimeout(this.state.timeout);
+
     if (event.key === 'Enter') {
       this.props.newMessage();
     }
@@ -30,6 +33,8 @@ class App extends React.PureComponent {
     setTimeout(() => {
       this.refs.container.scrollTop = this.refs.container.scrollHeight;
     }, 100);
+
+    this.setState({ timeout: setTimeout(this.props.invalidateInput, 3000) });
   }
 
   render() {
@@ -73,7 +78,8 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = (dispatch) => ({
   onKey: (key) => dispatch(sendKey(key)),
-  newMessage: () => dispatch(newMessage())
+  newMessage: () => dispatch(newMessage()),
+  invalidateInput: () => dispatch(invalidateInput())
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(App);

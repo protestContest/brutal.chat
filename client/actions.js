@@ -2,7 +2,8 @@ export const types = {
   RECEIVE_KEY: 'RECEIVE_KEY',
   SEND_KEY: 'SEND_KEY',
   NEW_MESSAGE: 'NEW_MESSAGE',
-  USER_JOINED: 'USER_JOINED'
+  USER_JOINED: 'USER_JOINED',
+  INVALIDATE_INPUT: 'INVALIDATE_INPUT'
 };
 
 export function receiveKey(keyInfo) {
@@ -33,4 +34,8 @@ export function newMessage() {
 
 export function userJoined(username) {
   return { type: types.USER_JOINED, payload: username };
+}
+
+export function invalidateInput() {
+  return { type: types.INVALIDATE_INPUT };
 }
