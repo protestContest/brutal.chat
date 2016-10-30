@@ -6,7 +6,10 @@ class MessageBox extends React.PureComponent {
     const styles = {
       container: {
         margin: '1em 0',
-        position: 'relative'
+        position: 'relative',
+        alignSelf: (this.props.message.author === this.props.user)
+          ? 'flex-start'
+          : ''
       },
       title: {
         position: 'absolute',
@@ -39,7 +42,8 @@ class MessageBox extends React.PureComponent {
 }
 
 const mapStateToProps = (state, ownProps) => ({
-  message: state.messages.find((message) => message.id === ownProps.message)
+  message: state.messages.find((message) => message.id === ownProps.message),
+  user: state.user
 });
 
 export default connect(mapStateToProps)(MessageBox);

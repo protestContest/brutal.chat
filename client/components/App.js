@@ -2,7 +2,6 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { sendKey, newMessage } from '../actions';
 import MessageBox from './MessageBox';
-import InputBox from './InputBox';
 
 class App extends React.PureComponent {
   constructor(props) {
@@ -40,18 +39,25 @@ class App extends React.PureComponent {
       overflowY: 'auto'
     };
 
+    const messages = this.props.messages.map(message => (
+      <MessageBox key={`message-${message.id}`} message={message.id} />
+    ));
+
     return (
       <div ref='container' style={style} onKeyUp={this.onKeyPress} tabIndex='0'>
-        <MessageBox message='asdf' />
-        <InputBox />
+        {messages}
       </div>
     );
   }
 }
+
+const mapStateToProps = (state) => ({
+  messages: state.messages
+});
 
 const mapDispatchToProps = (dispatch) => ({
   onKey: (key) => dispatch(sendKey(key)),
   newMessage: () => dispatch(newMessage())
 });
 
-export default connect(null, mapDispatchToProps)(App);
+export default connect(mapStateToProps, mapDispatchToProps)(App);
