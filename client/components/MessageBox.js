@@ -24,15 +24,16 @@ class MessageBox extends React.PureComponent {
         border: '4px solid black',
         padding: '0.75em',
         fontFamily: 'monospace',
-        fontSize: '20px',
+        fontSize: '1.5em',
         minWidth: '20em',
-        maxWidth: '30em'
+        maxWidth: '30em',
+        wordBreak: 'break-all'
       }
     };
 
     return (
       <div style={styles.container}>
-        <span style={styles.box}>
+        <span style={styles.box} className='message-box'>
           <span style={styles.title}>{this.props.message.author}</span>
           {this.props.message.content}
         </span>
@@ -42,7 +43,6 @@ class MessageBox extends React.PureComponent {
 }
 
 const mapStateToProps = (state, ownProps) => {
-
   return ({
     message: state.messages.find((message) => message.id === ownProps.message),
     user: state.user

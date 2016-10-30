@@ -5,7 +5,6 @@ module.exports = function(server) {
 
   io.on('connection', (socket) => {
     socket.on('key', (key) => {
-      console.log('sending key');
       socket.broadcast.emit('key', key);
     });
 
