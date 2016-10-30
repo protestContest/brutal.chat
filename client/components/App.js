@@ -9,6 +9,7 @@ class App extends React.PureComponent {
     super(props);
     this.state = { timeout: null };
     this.onKeyPress = this.onKeyPress.bind(this);
+    this.onKeyDown = this.onKeyDown.bind(this);
     this.focus = this.focus.bind(this);
   }
 
@@ -32,6 +33,14 @@ class App extends React.PureComponent {
 
     clearTimeout(this.state.timeout);
 
+    if (event.key.length === 1) {
+      this.props.onKey(event.key);
+    }
+
+    this.setState({ timeout: setTimeout(this.props.invalidateInput, 3000) });
+  }
+
+  onKeyDown(event) {
     if (event.key === 'Enter') {
       this.props.newMessage();
     }
@@ -39,12 +48,6 @@ class App extends React.PureComponent {
     if (event.key === 'Backspace') {
       this.props.onKey('Backspace');
     }
-
-    if (event.key.length === 1) {
-      this.props.onKey(event.key);
-    }
-
-    this.setState({ timeout: setTimeout(this.props.invalidateInput, 3000) });
   }
 
   render() {
@@ -70,7 +73,7 @@ class App extends React.PureComponent {
     return (
       <div ref='container' style={style} onClick={this.focus}>
         {items}
-        <input tabIndex='0' ref='input'  onKeyUp={this.onKeyPress} style={{position: 'absolute', top: '-1000px', left: '-1000px'}} />
+        <input tabIndex='0' ref='input' onKeyDown={this.onKeyDown} onKeyPress={this.onKeyPress} style={{position: 'absolute', top: '-1000px', left: '-1000px'}} />
       </div>
     );
   }
