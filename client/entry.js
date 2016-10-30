@@ -8,7 +8,7 @@ import sockets from './sockets';
 import App from './components/App';
 
 let store = createStore(reducer, applyMiddleware(thunkMiddleware));
-sockets.init();
+sockets.init(store);
 
 document.addEventListener('DOMContentLoaded', () => {
   render((

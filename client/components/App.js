@@ -2,6 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { sendKey, newMessage } from '../actions';
 import MessageBox from './MessageBox';
+import EventBox from './EventBox';
 
 class App extends React.PureComponent {
   constructor(props) {
@@ -41,20 +42,31 @@ class App extends React.PureComponent {
       overflowY: 'auto'
     };
 
-    const messages = this.props.messages.map(message => (
-      <MessageBox key={`message-${message.id}`} message={message.id} />
-    ));
+    const items = this.props.items.map(item => {
+      if (item.type === 'event') {
+        return <EventBox key={`key-${item.id}`} event={item.id} />;
+      } else {
+        return <MessageBox key={`message-${item.id}`} message={item.id} />;
+      }
+    });
 
     return (
       <div ref='container' style={style} onKeyUp={this.onKeyPress} tabIndex='0'>
-        {messages}
+        {items}
       </div>
     );
   }
 }
 
+function compareMessages(a, b) {
+  return a.timestamp - b.timestamp;
+}
+
 const mapStateToProps = (state) => ({
-  messages: state.messages
+  items: [
+    ...state.messages.map(message => ({...message, type: 'message'})),
+    ...state.events.map(event => ({...event, type: 'event'})),
+  ].sort(compareMessages)
 });
 
 const mapDispatchToProps = (dispatch) => ({

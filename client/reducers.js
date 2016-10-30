@@ -3,14 +3,22 @@ import usernames from './usernames';
 
 const defaultState = {
   messages: [
-    {
+    /*{
       id: 'asdf',
       content: 'Hello',
-      author: 'JohnDoe'
-    }
+      author: 'JohnDoe',
+      timestamp: Date.now()
+    }*/
   ],
   inputMessage: null,
-  user: getUserName()
+  user: getUserName(),
+  events: [
+    {
+      id: 'event-1',
+      timestamp: Date.now(),
+      content: 'Welcome'
+    }
+  ]
 };
 
 export default function(state = defaultState, action) {
@@ -27,6 +35,19 @@ export default function(state = defaultState, action) {
       messages: [
         ...state.messages,
         newMessage
+      ]
+    };
+
+  case types.USER_JOINED:
+    return {
+      ...state,
+      events: [
+        ...state.events,
+        {
+          id: `joined-${Date.now()}`,
+          timestamp: Date.now(),
+          content: `${action.payload} joined`
+        }
       ]
     };
 
