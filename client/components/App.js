@@ -9,17 +9,22 @@ class App extends React.PureComponent {
     super(props);
     this.state = { timeout: null };
     this.onKeyPress = this.onKeyPress.bind(this);
+    this.focus = this.focus.bind(this);
   }
 
   componentDidMount() {
-    this.refs.container.focus();
-    this.refs.container.click();
+    this.focus();
   }
 
   componentWillReceiveProps() {
     setTimeout(() => {
       this.refs.container.scrollTop = this.refs.container.scrollHeight;
     }, 100);
+  }
+
+  focus() {
+    this.refs.input.focus();
+    this.refs.input.click();
   }
 
   onKeyPress(event) {
@@ -63,8 +68,9 @@ class App extends React.PureComponent {
     });
 
     return (
-      <div ref='container' style={style} onKeyUp={this.onKeyPress} tabIndex='0'>
+      <div ref='container' style={style} onClick={this.focus}>
         {items}
+        <input tabIndex='0' ref='input'  onKeyUp={this.onKeyPress} style={{position: 'absolute', top: '-1000px', left: '-1000px'}} />
       </div>
     );
   }
