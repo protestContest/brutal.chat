@@ -15,6 +15,12 @@ class App extends React.PureComponent {
     this.refs.container.focus();
   }
 
+  componentWillReceiveProps() {
+    setTimeout(() => {
+      this.refs.container.scrollTop = this.refs.container.scrollHeight;
+    }, 100);
+  }
+
   onKeyPress(event) {
     clearTimeout(this.state.timeout);
 
@@ -29,10 +35,6 @@ class App extends React.PureComponent {
     if (event.key.length === 1) {
       this.props.onKey(event.key);
     }
-
-    setTimeout(() => {
-      this.refs.container.scrollTop = this.refs.container.scrollHeight;
-    }, 100);
 
     this.setState({ timeout: setTimeout(this.props.invalidateInput, 3000) });
   }

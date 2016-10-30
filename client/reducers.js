@@ -68,6 +68,9 @@ export default function(state = defaultState, action) {
   case types.INVALIDATE_INPUT:
     return {
       ...state,
+      messages: [
+        ...state.messages.filter(message => message.content.length > 0)
+      ],
       inputMessage: null
     };
 
