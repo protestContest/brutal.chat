@@ -13,6 +13,7 @@ class App extends React.PureComponent {
 
   componentDidMount() {
     this.refs.container.focus();
+    this.refs.container.click();
   }
 
   componentWillReceiveProps() {
@@ -22,6 +23,8 @@ class App extends React.PureComponent {
   }
 
   onKeyPress(event) {
+    if (event.ctrlKey || event.shiftKey || event.altKey || event.metaKey) return;
+
     clearTimeout(this.state.timeout);
 
     if (event.key === 'Enter') {
