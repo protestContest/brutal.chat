@@ -29,7 +29,7 @@ class App extends React.PureComponent {
   }
 
   onKeyPress(event) {
-    if (event.ctrlKey || event.shiftKey || event.altKey || event.metaKey) return;
+    if (event.ctrlKey || event.altKey || event.metaKey) return;
 
     clearTimeout(this.state.timeout);
 
