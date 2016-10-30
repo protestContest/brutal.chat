@@ -16,12 +16,18 @@ const defaultState = {
 export default function(state = defaultState, action) {
   switch(action.type) {
   case types.SEND_KEY:
-    return addKey(state, action);
+    return addKey(state, action.payload);
 
   case types.NEW_MESSAGE:
+    const newMessage = createMessage(state.user);
+
     return {
       ...state,
-      inputMessage: null
+      inputMessage: newMessage.id,
+      messages: [
+        ...state.messages,
+        newMessage
+      ]
     };
 
   default:
@@ -33,15 +39,15 @@ function getUserName() {
   return usernames[Math.floor(Math.random() * usernames.length)];
 }
 
-function addKey(state, action) {
+function addKey(state, key) {
   const message = (state.inputMessage)
     ? { ...state.messages.find(message => message.id === state.inputMessage) }
     : createMessage(state.user);
 
-  if (action.payload === 'Backspace') {
+  if (key === 'Backspace') {
     message.content = message.content.slice(0, -1);
   } else {
-    message.content += action.payload;
+    message.content += key;
   }
 
   return {

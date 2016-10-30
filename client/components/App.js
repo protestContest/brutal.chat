@@ -25,6 +25,8 @@ class App extends React.PureComponent {
     if (event.key.length === 1) {
       this.props.onKey(event.key);
     }
+
+    this.refs.container.scrollTop = this.refs.container.scrollHeight;
   }
 
   render() {
