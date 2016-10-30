@@ -1,5 +1,6 @@
 import { types } from './actions';
 import usernames from './usernames';
+import { createMessage } from './util';
 
 const defaultState = {
   messages: [
@@ -92,13 +93,4 @@ function addKey(messages, { messageId, key, author }) {
     ...messages.filter(currentMessage => currentMessage.id !== message.id),
     message
   ];
-}
-
-function createMessage(id, author) {
-  return {
-    id: id || author + '-' + (new Date().valueOf()),
-    author: author,
-    content: '',
-    timestamp: Date.now()
-  };
 }

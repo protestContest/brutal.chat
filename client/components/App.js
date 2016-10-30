@@ -27,7 +27,9 @@ class App extends React.PureComponent {
       this.props.onKey(event.key);
     }
 
-    this.refs.container.scrollTop = this.refs.container.scrollHeight;
+    setTimeout(() => {
+      this.refs.container.scrollTop = this.refs.container.scrollHeight;
+    }, 100);
   }
 
   render() {
@@ -39,7 +41,7 @@ class App extends React.PureComponent {
       height: '100vh',
       padding: '2vh 2vw',
       alignItems: 'flex-end',
-      overflowY: 'auto'
+      overflowY: 'hidden'
     };
 
     const items = this.props.items.map(item => {
