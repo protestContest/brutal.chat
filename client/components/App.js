@@ -51,14 +51,6 @@ class App extends React.PureComponent {
 
   render() {
     const styles = {
-      title: {
-        position: 'absolute',
-        fontFamily: 'monospace',
-        background: 'white',
-        top: '0.5em',
-        left: '2em',
-        padding: '0 0.5em'
-      },
       container: {
         display: 'flex',
         flexDirection: 'column',
@@ -66,8 +58,7 @@ class App extends React.PureComponent {
         padding: '2vh 2vw',
         alignItems: 'flex-end',
         overflowY: 'hidden',
-        flex: '1',
-        margin: '0.5em'
+        flex: '1'
       }
     };
 
@@ -81,7 +72,6 @@ class App extends React.PureComponent {
 
     return (
       <div ref='container' style={styles.container} onClick={this.focus}>
-        <span style={styles.title}>CHAT</span>
         {items}
         <input autoFocus={true} autoComplete='off' autoCorrect='off' autoCapitalize='off' ref='input' onKeyDown={this.onKeyDown} onKeyPress={this.onKeyPress} style={{position: 'absolute', bottom: '-1000px', left: '-1000px'}} />
       </div>
