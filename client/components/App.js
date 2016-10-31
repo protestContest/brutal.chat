@@ -17,6 +17,10 @@ class App extends React.PureComponent {
     this.focus();
   }
 
+  componentWillReceiveProps() {
+    this.refs.container.scrollTop = this.refs.container.scrollHeight;
+  }
+
   focus() {
     this.refs.input.focus();
     this.refs.input.click();
