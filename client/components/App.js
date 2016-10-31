@@ -50,15 +50,25 @@ class App extends React.PureComponent {
   }
 
   render() {
-    const style = {
-      display: 'flex',
-      flexDirection: 'column',
-      border: '4px solid black',
-      width: '100vw',
-      height: '100vh',
-      padding: '2vh 2vw',
-      alignItems: 'flex-end',
-      overflowY: 'hidden'
+    const styles = {
+      title: {
+        position: 'absolute',
+        fontFamily: 'monospace',
+        background: 'white',
+        top: '0.5em',
+        left: '2em',
+        padding: '0 0.5em'
+      },
+      container: {
+        display: 'flex',
+        flexDirection: 'column',
+        border: '4px solid black',
+        padding: '2vh 2vw',
+        alignItems: 'flex-end',
+        overflowY: 'hidden',
+        flex: '1',
+        margin: '0.5em'
+      }
     };
 
     const items = this.props.items.map(item => {
@@ -70,7 +80,8 @@ class App extends React.PureComponent {
     });
 
     return (
-      <div ref='container' style={style} onClick={this.focus}>
+      <div ref='container' style={styles.container} onClick={this.focus}>
+        <span style={styles.title}>CHAT</span>
         {items}
         <input autoFocus={true} autoComplete='off' autoCorrect='off' autoCapitalize='off' ref='input' onKeyDown={this.onKeyDown} onKeyPress={this.onKeyPress} style={{position: 'absolute', bottom: '-1000px', left: '-1000px'}} />
       </div>
