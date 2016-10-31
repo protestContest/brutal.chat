@@ -41,6 +41,8 @@ export default function(state = defaultState, action) {
     };
 
   case types.NEW_MESSAGE:
+    if (inputIsBlank(state.inputMessage, state.messages)) return state;
+
     const newMessage = createMessage(null, state.user);
 
     return {
@@ -102,4 +104,13 @@ function addKey(messages, { messageId, key, author }) {
     ...messages.filter(currentMessage => currentMessage.id !== message.id),
     message
   ];
+}
+
+function inputIsBlank(messageId, messages) {
+  if (!messageId) return false;
+  const foundMessage = messages.find(message => message.id === messageId);
+  if (!foundMessage) return false;
+  if (foundMessage.content.length > 0) return false;
+
+  return true;
 }
