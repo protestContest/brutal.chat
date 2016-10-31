@@ -17,18 +17,13 @@ class App extends React.PureComponent {
     this.focus();
   }
 
-  componentWillReceiveProps() {
-    setTimeout(() => {
-      this.refs.container.scrollTop = this.refs.container.scrollHeight;
-    }, 100);
-  }
-
   focus() {
     this.refs.input.focus();
     this.refs.input.click();
   }
 
   onKeyPress(event) {
+    this.refs.container.scrollTop = this.refs.container.scrollHeight;
     if (event.ctrlKey || event.altKey || event.metaKey) return;
 
     clearTimeout(this.state.timeout);
@@ -73,7 +68,7 @@ class App extends React.PureComponent {
     return (
       <div ref='container' style={style} onClick={this.focus}>
         {items}
-        <input autoFocus={true} autoComplete='off' autoCorrect='off' ref='input' onKeyDown={this.onKeyDown} onKeyPress={this.onKeyPress} style={{position: 'absolute', top: '-1000px', left: '-1000px'}} />
+        <input autoFocus={true} autoComplete='off' autoCorrect='off' ref='input' onKeyDown={this.onKeyDown} onKeyPress={this.onKeyPress} style={{position: 'absolute', bottom: '-1000px', left: '-1000px'}} />
       </div>
     );
   }
