@@ -59,6 +59,10 @@ class App extends React.PureComponent {
         alignItems: 'flex-end',
         overflowY: 'hidden',
         flex: '1'
+      },
+      input: {
+        position: 'relative',
+        left: '-1000px'
       }
     };
 
@@ -73,7 +77,7 @@ class App extends React.PureComponent {
     return (
       <div ref='container' style={styles.container} onClick={this.focus}>
         {items}
-        <input autoFocus={true} autoComplete='off' autoCorrect='off' autoCapitalize='off' ref='input' onKeyDown={this.onKeyDown} onKeyPress={this.onKeyPress} style={{position: 'absolute', bottom: '-1000px', left: '-1000px'}} />
+        <input autoFocus={true} autoComplete='off' autoCorrect='off' autoCapitalize='off' ref='input' onKeyDown={this.onKeyDown} onKeyPress={this.onKeyPress} style={styles.input} />
       </div>
     );
   }
