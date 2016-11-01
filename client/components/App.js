@@ -62,6 +62,7 @@ class App extends React.PureComponent {
       },
       input: {
         position: 'relative',
+        alignSelf: 'flex-start',
         left: '-1000px'
       }
     };
