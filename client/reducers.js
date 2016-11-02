@@ -1,6 +1,5 @@
 import { types } from './actions';
-import usernames from './usernames';
-import { createMessage } from './util';
+import { createMessage, getUserName } from './util';
 
 const defaultState = {
   messages: [
@@ -79,13 +78,6 @@ export default function(state = defaultState, action) {
   default:
     return state;
   }
-}
-
-function getUserName() {
-  const adjective = usernames.adjectives[Math.floor(Math.random() * usernames.adjectives.length)];
-  const animal = usernames.animals[Math.floor(Math.random() * usernames.animals.length)];
-
-  return adjective + animal;
 }
 
 function addKey(messages, { messageId, key, author }) {

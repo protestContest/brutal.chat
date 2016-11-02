@@ -8,8 +8,7 @@ class App extends React.PureComponent {
   constructor(props) {
     super(props);
     this.state = { timeout: null };
-    this.onKeyPress = this.onKeyPress.bind(this);
-    this.onKeyDown = this.onKeyDown.bind(this);
+    this.onKeyUp = this.onKeyUp.bind(this);
     this.focus = this.focus.bind(this);
   }
 
@@ -26,7 +25,15 @@ class App extends React.PureComponent {
     this.refs.input.click();
   }
 
-  onKeyPress(event) {
+  onKeyUp(event) {
+    if (event.key === 'Enter') {
+      this.props.newMessage();
+    }
+
+    if (event.key === 'Backspace') {
+      this.props.onKey('Backspace');
+    }
+
     this.refs.container.scrollTop = this.refs.container.scrollHeight;
     if (event.ctrlKey || event.altKey || event.metaKey) return;
 
@@ -37,16 +44,6 @@ class App extends React.PureComponent {
     }
 
     this.setState({ timeout: setTimeout(this.props.invalidateInput, 3000) });
-  }
-
-  onKeyDown(event) {
-    if (event.key === 'Enter') {
-      this.props.newMessage();
-    }
-
-    if (event.key === 'Backspace') {
-      this.props.onKey('Backspace');
-    }
   }
 
   render() {
@@ -78,7 +75,7 @@ class App extends React.PureComponent {
     return (
       <div ref='container' style={styles.container} onClick={this.focus}>
         {items}
-        <input autoFocus={true} autoComplete='off' autoCorrect='off' autoCapitalize='off' ref='input' onKeyDown={this.onKeyDown} onKeyPress={this.onKeyPress} style={styles.input} />
+        <input autoFocus={true} autoComplete='off' autoCorrect='off' autoCapitalize='off' ref='input' onKeyUp={this.onKeyUp} style={styles.input} />
       </div>
     );
   }

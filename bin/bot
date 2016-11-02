@@ -1,0 +1,51 @@
+#!/usr/bin/env node
+
+const io = require('socket.io-client');
+const usernames = require('../usernames');
+
+const socket = io('http://chat.zjm.me');
+
+const messages = [
+  'That\'s interesting.',
+  'I\'m bored',
+  'Hahaha!',
+  'Has anyone seen any good movies recently?',
+  'how about this Seattle vibe',
+  'Hello?',
+  'what are you for halloween?',
+  'I\'m a dolphin',
+  'VOTING 4 TRUMP!!11!!!!'
+];
+
+function getUsername() {
+  const adjective = usernames.adjectives[Math.floor(Math.random()*usernames.adjectives.length)];
+  const animal = usernames.animals[Math.floor(Math.random()*usernames.animals.length)];
+  const name = adjective+animal;
+  return name;
+}
+
+function typeMessage() {
+  const message = messages[Math.floor(Math.random()*messages.length)];
+  const messageId = 'bot-' + Date.now();
+
+  console.log(message);
+
+  let i = 0;
+
+  let interval = setInterval(function() {
+    if (i >= message.length) clearInterval(interval);
+    else {
+      let char = message.charAt(i);
+      socket.emit('key', {
+        messageId: messageId,
+        key: char,
+        author: getUsername()
+      });
+
+      i++;
+    }
+  }, 200);
+}
+
+typeMessage();
+setInterval(typeMessage, 30*1000);
