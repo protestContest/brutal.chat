@@ -27,6 +27,7 @@ class MessageBox extends React.PureComponent {
         fontSize: '1.5em',
         minWidth: '20em',
         maxWidth: '30em',
+        minHeight: '3em',
         wordBreak: 'break-all'
       }
     };
