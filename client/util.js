@@ -10,8 +10,16 @@ export function createMessage(id, author) {
 }
 
 export function getUserName() {
-  const adjective = usernames.adjectives[Math.floor(Math.random() * usernames.adjectives.length)];
-  const animal = usernames.animals[Math.floor(Math.random() * usernames.animals.length)];
+  const storedUsername = window.sessionStorage.getItem('user');
 
-  return adjective + animal;
+  if (storedUsername) {
+    return storedUsername;
+  } else {
+    const adjective = usernames.adjectives[Math.floor(Math.random() * usernames.adjectives.length)];
+    const animal = usernames.animals[Math.floor(Math.random() * usernames.animals.length)];
+
+    window.sessionStorage.setItem('user', adjective + animal);
+
+    return adjective + animal;
+  }
 }

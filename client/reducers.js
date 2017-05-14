@@ -1,6 +1,8 @@
 import { types } from './actions';
 import { createMessage, getUserName } from './util';
 
+const username = getUserName();
+
 const defaultState = {
   messages: [
     /*{
@@ -11,12 +13,12 @@ const defaultState = {
     }*/
   ],
   inputMessage: null,
-  user: getUserName(),
+  user: username,
   events: [
     {
       id: 'event-1',
       timestamp: Date.now(),
-      content: 'Welcome'
+      content: `Welcome ${username}`
     }
   ]
 };
