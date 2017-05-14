@@ -66,6 +66,19 @@ export default function(state = defaultState, action) {
       ]
     };
 
+  case types.USER_LEFT:
+    return {
+      ...state,
+      events: [
+        ...state.events,
+        {
+          id: `left-${Date.now()}`,
+          timestamp: Date.now(),
+          content: `${action.payload} left`
+        }
+      ]
+    };
+
   case types.INVALIDATE_INPUT:
     return {
       ...state,

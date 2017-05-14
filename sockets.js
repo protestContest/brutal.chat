@@ -9,7 +9,12 @@ module.exports = function(server) {
     });
 
     socket.on('joined', (username) => {
+      socket.username = username;
       socket.broadcast.emit('joined', username);
+    });
+
+    socket.on('disconnect', () => {
+      socket.broadcast.emit('left', socket.username);
     });
   });
 };

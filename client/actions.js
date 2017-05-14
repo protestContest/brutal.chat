@@ -3,6 +3,7 @@ export const types = {
   SEND_KEY: 'SEND_KEY',
   NEW_MESSAGE: 'NEW_MESSAGE',
   USER_JOINED: 'USER_JOINED',
+  USER_LEFT: 'USER_LEFT',
   INVALIDATE_INPUT: 'INVALIDATE_INPUT'
 };
 
@@ -34,6 +35,10 @@ export function newMessage() {
 
 export function userJoined(username) {
   return { type: types.USER_JOINED, payload: username };
+}
+
+export function userLeft(username) {
+  return { type: types.USER_LEFT, payload: username };
 }
 
 export function invalidateInput() {
