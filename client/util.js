@@ -1,4 +1,5 @@
 import usernames from './usernames';
+import { changeUsername } from './actions';
 
 export function createMessage(id, author) {
   return {
@@ -15,11 +16,25 @@ export function getUserName() {
   if (storedUsername) {
     return storedUsername;
   } else {
-    const adjective = usernames.adjectives[Math.floor(Math.random() * usernames.adjectives.length)];
-    const animal = usernames.animals[Math.floor(Math.random() * usernames.animals.length)];
+    const username = createUsername();
+    window.sessionStorage.setItem('user', username);
 
-    window.sessionStorage.setItem('user', adjective + animal);
+    return username;
+  }
+}
 
-    return adjective + animal;
+export function createUsername() {
+  const adjective = usernames.adjectives[Math.floor(Math.random() * usernames.adjectives.length)];
+  const animal = usernames.animals[Math.floor(Math.random() * usernames.animals.length)];
+  return adjective + animal;
+}
+
+export function parseCommand(input) {
+  switch (input) {
+  case '/nick':
+    return changeUsername(createUsername());
+
+  default:
+    return null;
   }
 }

@@ -90,6 +90,12 @@ export default function(state = defaultState, action) {
       inputMessage: null
     };
 
+  case types.CHANGE_USERNAME:
+    return {
+      ...state,
+      user: action.payload
+    };
+
   default:
     return state;
   }

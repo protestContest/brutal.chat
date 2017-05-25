@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { sendKey, newMessage, invalidateInput } from '../actions';
+import { sendKey, endMessage, invalidateInput } from '../actions';
 import MessageBox from './MessageBox';
 import EventBox from './EventBox';
 
@@ -27,7 +27,7 @@ class App extends React.PureComponent {
 
   onKeyUp(event) {
     if (event.key === 'Enter') {
-      this.props.newMessage();
+      this.props.endMessage();
     }
 
     if (event.key === 'Backspace') {
@@ -94,7 +94,7 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = (dispatch) => ({
   onKey: (key) => dispatch(sendKey(key)),
-  newMessage: () => dispatch(newMessage()),
+  endMessage: () => dispatch(endMessage()),
   invalidateInput: () => dispatch(invalidateInput())
 });
 
