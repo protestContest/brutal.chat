@@ -13,7 +13,7 @@ module.exports = {
       {
         test: /\.js$/,
         exclude: /node_modules/,
-        loader: 'babel',
+        loader: 'babel-loader',
         query: {
           presets: ['es2015', 'react', 'stage-2'],
           cacheDirectory: false
@@ -22,7 +22,7 @@ module.exports = {
     ]
   },
   resolve: {
-    extensions: ['', '.js']
+    extensions: ['.js']
   },
   devServer: {
     historyApiFallback: true
