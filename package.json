@@ -7,7 +7,8 @@
     "dev": "node ./bin/www | grep -v built",
     "lint": "eslint .",
     "build": "webpack --config webpack.config.prod.js",
-    "bot": "node ./bin/bot"
+    "bot": "node ./bin/bot",
+    "postinstall": "npm run build"
   },
   "dependencies": {
     "body-parser": "~1.15.1",
