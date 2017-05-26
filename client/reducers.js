@@ -96,6 +96,32 @@ export default function(state = defaultState, action) {
       user: action.payload
     };
 
+  case types.USER_KICKED:
+    return {
+      ...state,
+      events: [
+        ...state.events,
+        {
+          id: `kicked-${Date.now()}`,
+          timestamp: Date.now(),
+          content: `${action.payload} kicked`
+        }
+      ]
+    };
+
+  case types.BE_KICKED:
+    return {
+      ...state,
+      events: [
+        ...state.events,
+        {
+          id: `kick-${Date.now()}`,
+          timestamp: Date.now(),
+          content: 'You were kicked'
+        }
+      ]
+    };
+
   default:
     return state;
   }

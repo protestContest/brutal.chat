@@ -7,7 +7,10 @@ export const types = {
   USER_JOINED: 'USER_JOINED',
   USER_LEFT: 'USER_LEFT',
   INVALIDATE_INPUT: 'INVALIDATE_INPUT',
-  CHANGE_USERNAME: 'CHANGE_USERNAME'
+  CHANGE_USERNAME: 'CHANGE_USERNAME',
+  KICK: 'KICK',
+  BE_KICKED: 'BE_KICKED',
+  USER_KICKED: 'USER_KICKED'
 };
 
 export function receiveKey(keyInfo) {
@@ -65,4 +68,18 @@ export function invalidateInput() {
 
 export function changeUsername(username) {
   return { type: types.CHANGE_USERNAME, payload: username };
+}
+
+export function kick(username) {
+  return () => {
+    window.socket.emit('kick', username);
+  };
+}
+
+export function beKicked() {
+  return { type: types.BE_KICKED };
+}
+
+export function userKicked(username) {
+  return { type: types.USER_KICKED, payload: username };
 }

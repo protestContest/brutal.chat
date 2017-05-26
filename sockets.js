@@ -13,8 +13,29 @@ module.exports = function(server) {
       socket.broadcast.emit('joined', username);
     });
 
+    socket.on('kick', (username) => {
+      let kickUser = null;
+      for (let socketId in io.sockets.sockets) {
+        if (io.sockets.sockets[socketId]
+            && io.sockets.sockets[socketId].username === username) {
+          kickUser = io.sockets.sockets[socketId];
+          break;
+        }
+      }
+
+      if (kickUser) {
+        kickUser.emit('kick');
+        kickUser.kicked = true;
+        kickUser.disconnect(true);
+      }
+    });
+
     socket.on('disconnect', () => {
-      socket.broadcast.emit('left', socket.username);
+      if (socket.kicked) {
+        socket.broadcast.emit('kicked', socket.username);
+      } else {
+        socket.broadcast.emit('left', socket.username);
+      }
     });
   });
 };

@@ -1,5 +1,5 @@
 import usernames from '../usernames';
-import { changeUsername } from './actions';
+import { changeUsername, kick } from './actions';
 
 export function createMessage(id, author) {
   return {
@@ -30,9 +30,20 @@ export function createUsername() {
 }
 
 export function parseCommand(input) {
-  switch (input) {
-  case '/nick':
+  const match = input.match(/^\/(\w+) ?(.*)$/);
+
+  let command, param = '';
+  if (match && match.length > 1) {
+    command = match[1];
+    param = match[2].trim();
+  }
+
+  switch (command) {
+  case 'nick':
     return changeUsername(createUsername());
+
+  case 'kick':
+    return kick(param);
 
   default:
     return null;
