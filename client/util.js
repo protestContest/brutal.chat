@@ -1,4 +1,4 @@
-import usernames from './usernames';
+import usernames from '../usernames';
 import { changeUsername } from './actions';
 
 export function createMessage(id, author) {
