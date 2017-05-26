@@ -42,7 +42,7 @@ export function endMessage() {
 
     const userMessage = messages.find(message => message.id === inputMessage);
 
-    if (userMessage.content.charAt(0) === '/') {
+    if (userMessage && userMessage.content.charAt(0) === '/') {
       const action = parseCommand(userMessage.content);
       if (action) dispatch(action);
     }
