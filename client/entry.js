@@ -6,8 +6,9 @@ import thunkMiddleware from 'redux-thunk';
 import reducer from './reducers';
 import sockets from './sockets';
 import App from './components/App';
+import { getDefaultState } from './defaultState';
 
-let store = createStore(reducer, applyMiddleware(thunkMiddleware));
+let store = createStore(reducer, getDefaultState(), applyMiddleware(thunkMiddleware));
 sockets.init(store);
 
 document.addEventListener('DOMContentLoaded', () => {

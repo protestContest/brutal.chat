@@ -10,7 +10,11 @@ export const types = {
   CHANGE_USERNAME: 'CHANGE_USERNAME',
   KICK: 'KICK',
   BE_KICKED: 'BE_KICKED',
-  USER_KICKED: 'USER_KICKED'
+  USER_KICKED: 'USER_KICKED',
+  START_RECORD: 'START_RECORD',
+  RECORD_STARTED: 'RECORD_STARTED',
+  STOP_RECORD: 'STOP_RECORD',
+  RECORD_STOPPED: 'RECORD_STOPPED'
 };
 
 export function receiveKey(keyInfo) {
@@ -82,4 +86,24 @@ export function beKicked() {
 
 export function userKicked(username) {
   return { type: types.USER_KICKED, payload: username };
+}
+
+export function startRecord() {
+  return () => {
+    window.socket.emit('record');
+  };
+}
+
+export function recordStarted() {
+  return { type: types.RECORD_STARTED };
+}
+
+export function stopRecord() {
+  return () => {
+    window.socket.emit('stopRecording');
+  };
+}
+
+export function recordStopped(timestamp) {
+  return { type: types.RECORD_STOPPED, payload: timestamp };
 }

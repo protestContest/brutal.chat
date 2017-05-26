@@ -1,29 +1,7 @@
 import { types } from './actions';
-import { createMessage, getUserName } from './util';
+import { createMessage } from './util';
 
-const username = getUserName();
-
-const defaultState = {
-  messages: [
-    /*{
-      id: 'asdf',
-      content: 'Hello',
-      author: 'quietly',
-      timestamp: Date.now()
-    }*/
-  ],
-  inputMessage: null,
-  user: username,
-  events: [
-    {
-      id: 'event-1',
-      timestamp: Date.now(),
-      content: `Welcome ${username}`
-    }
-  ]
-};
-
-export default function(state = defaultState, action) {
+export default function(state, action) {
   switch(action.type) {
   case types.SEND_KEY:
     const messages = addKey(state.messages, action.payload);
@@ -118,6 +96,34 @@ export default function(state = defaultState, action) {
           id: `kick-${Date.now()}`,
           timestamp: Date.now(),
           content: 'You were kicked'
+        }
+      ]
+    };
+
+  case types.RECORD_STARTED:
+    return {
+      ...state,
+      recordStart: Date.now(),
+      events: [
+        ...state.events,
+        {
+          id: `record-${Date.now()}`,
+          timestamp: Date.now(),
+          content: 'Recording started'
+        }
+      ]
+    };
+
+  case types.RECORD_STOPPED:
+    return {
+      ...state,
+      recordStart: null,
+      events: [
+        ...state.events,
+        {
+          id: `recordend-${Date.now()}`,
+          timestamp: Date.now(),
+          content: `Recording finished: ${action.payload}`
         }
       ]
     };

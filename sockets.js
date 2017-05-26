@@ -1,11 +1,16 @@
 const socketIo = require('socket.io');
 
-module.exports = function(server) {
+module.exports = function(server, redis) {
   const io = socketIo(server);
+  let recordId = null;
 
   io.on('connection', (socket) => {
     socket.on('key', (key) => {
       socket.broadcast.emit('key', key);
+
+      if (recordId) {
+        redis.rpush(recordId, JSON.stringify(key));
+      }
     });
 
     socket.on('joined', (username) => {
@@ -28,6 +33,18 @@ module.exports = function(server) {
         kickUser.kicked = true;
         kickUser.disconnect(true);
       }
+    });
+
+    socket.on('record', () => {
+      socket.broadcast.emit('startRecording');
+      socket.emit('startRecording');
+      recordId = Date.now();
+    });
+
+    socket.on('stopRecording', () => {
+      socket.broadcast.emit('stopRecording', recordId);
+      socket.emit('stopRecording', recordId);
+      recordId = null;
     });
 
     socket.on('disconnect', () => {

@@ -47,11 +47,12 @@ class App extends React.PureComponent {
   }
 
   render() {
+    const borderColor = (this.props.recordStart) ? 'red' : 'black';
     const styles = {
       container: {
         display: 'flex',
         flexDirection: 'column',
-        border: '4px solid black',
+        border: '4px solid ' + borderColor,
         padding: '2vh 2vw',
         alignItems: 'flex-end',
         overflowY: 'hidden',
@@ -89,7 +90,8 @@ const mapStateToProps = (state) => ({
   items: [
     ...state.messages.map(message => ({...message, type: 'message'})),
     ...state.events.map(event => ({...event, type: 'event'})),
-  ].sort(compareMessages)
+  ].sort(compareMessages),
+  recordStart: state.recordStart
 });
 
 const mapDispatchToProps = (dispatch) => ({

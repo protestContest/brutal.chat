@@ -1,5 +1,5 @@
 import usernames from '../usernames';
-import { changeUsername, kick } from './actions';
+import { changeUsername, kick, startRecord, stopRecord } from './actions';
 
 export function createMessage(id, author) {
   return {
@@ -48,6 +48,12 @@ export function parseCommand(input) {
   case 'jackin':
     window.location = 'http://www.zjm.me';
     break;
+
+  case 'record':
+    return startRecord();
+
+  case 'stop':
+    return stopRecord();
 
   default:
     return null;

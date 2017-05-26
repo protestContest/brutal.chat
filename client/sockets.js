@@ -1,6 +1,6 @@
 /* globals io */
 
-import { receiveKey, userJoined, userLeft, beKicked, userKicked } from './actions';
+import { receiveKey, userJoined, userLeft, beKicked, userKicked, recordStarted, recordStopped } from './actions';
 
 export default {
   init: (store) => {
@@ -12,6 +12,8 @@ export default {
     window.socket.on('left', (user) => store.dispatch(userLeft(user)));
     window.socket.on('kick', () => store.dispatch(beKicked()));
     window.socket.on('kicked', (user) => store.dispatch(userKicked(user)));
+    window.socket.on('startRecording', () => store.dispatch(recordStarted()));
+    window.socket.on('stopRecording', (ts) => store.dispatch(recordStopped(ts)));
 
     window.socket.emit('joined', user);
   }
