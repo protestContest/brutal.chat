@@ -4,7 +4,7 @@ import { createMessage } from './util';
 export default function(state, action) {
   switch(action.type) {
   case types.SEND_KEY:
-    const messages = addKey(state.messages, action.payload);
+    const messages = addKey(state.messages, action.payload, state.appState);
     const inputMessage = messages[messages.length - 1].id;
 
     return {
@@ -16,7 +16,7 @@ export default function(state, action) {
   case types.RECEIVE_KEY:
     return {
       ...state,
-      messages: addKey(state.messages, action.payload)
+      messages: addKey(state.messages, action.payload, state.appState)
     };
 
   case types.NEW_MESSAGE:
@@ -104,6 +104,7 @@ export default function(state, action) {
     return {
       ...state,
       recordStart: Date.now(),
+      appState: 'recording',
       events: [
         ...state.events,
         {
@@ -118,6 +119,7 @@ export default function(state, action) {
     return {
       ...state,
       recordStart: null,
+      appState: 'normal',
       events: [
         ...state.events,
         {
@@ -133,7 +135,7 @@ export default function(state, action) {
   }
 }
 
-function addKey(messages, { messageId, key, author }) {
+function addKey(messages, { messageId, key, author }, appState) {
   const foundMessage = messages.find(message => message.id === messageId);
   let message = (foundMessage)
     ? {...foundMessage}
@@ -143,6 +145,10 @@ function addKey(messages, { messageId, key, author }) {
     message.content = message.content.slice(0, -1);
   } else {
     message.content += key;
+  }
+
+  if (appState === 'recording') {
+    message.recorded = true;
   }
 
   return [

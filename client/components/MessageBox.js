@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 
 class MessageBox extends React.PureComponent {
   render() {
+    const borderColor = (this.props.message.recorded) ? 'red' : 'black';
     const styles = {
       container: {
         margin: '1em 0',
@@ -21,7 +22,7 @@ class MessageBox extends React.PureComponent {
       },
       box: {
         display: 'inline-block',
-        border: '4px solid black',
+        border: '4px solid ' + borderColor,
         padding: '0.75em',
         fontFamily: 'monospace',
         fontSize: '1.5em',
@@ -46,7 +47,8 @@ class MessageBox extends React.PureComponent {
 const mapStateToProps = (state, ownProps) => {
   return ({
     message: state.messages.find((message) => message.id === ownProps.message),
-    user: state.user
+    user: state.user,
+    recorded: ownProps.recorded
   });
 };
 

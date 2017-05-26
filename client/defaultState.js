@@ -28,6 +28,7 @@ export function getDefaultState(recordItems, recordStart) {
     user: username,
     events: [ initialEvent ],
     recordStart: recordStart || null,
-    recordItems: recordItems || null
+    recordItems: recordItems || null,
+    appState: 'normal'
   };
 }
