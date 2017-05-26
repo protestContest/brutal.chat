@@ -45,6 +45,10 @@ export function parseCommand(input) {
   case 'kick':
     return kick(param);
 
+  case 'jackin':
+    window.location = 'http://www.zjm.me';
+    break;
+
   default:
     return null;
   }
