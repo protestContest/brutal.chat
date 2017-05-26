@@ -50,7 +50,7 @@ export function endMessage() {
       if (action) dispatch(action);
     }
 
-    dispatch(newMessage());
+    dispatch(invalidateInput());
   };
 }
 
