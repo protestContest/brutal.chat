@@ -14,7 +14,8 @@ export const types = {
   START_RECORD: 'START_RECORD',
   RECORD_STARTED: 'RECORD_STARTED',
   STOP_RECORD: 'STOP_RECORD',
-  RECORD_STOPPED: 'RECORD_STOPPED'
+  RECORD_STOPPED: 'RECORD_STOPPED',
+  SET_ROOM: 'SET_ROOM'
 };
 
 export function receiveKey(keyInfo) {
@@ -106,4 +107,11 @@ export function stopRecord() {
 
 export function recordStopped(timestamp) {
   return { type: types.RECORD_STOPPED, payload: timestamp };
+}
+
+export function setRoom(room) {
+  return (dispatch) => {
+    window.socket.emit('join', room);
+    dispatch({ type: types.SET_ROOM, payload: room });
+  }
 }

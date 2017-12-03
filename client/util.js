@@ -1,5 +1,5 @@
 import usernames from '../usernames';
-import { changeUsername, kick, startRecord, stopRecord } from './actions';
+import { changeUsername, kick, startRecord, stopRecord, setRoom } from './actions';
 
 export function createMessage(id, author) {
   return {
@@ -54,6 +54,12 @@ export function parseCommand(input) {
 
   case 'stop':
     return stopRecord();
+
+  case 'join':
+    return setRoom(param);
+
+  case 'leave':
+    return setRoom('default');
 
   default:
     return null;

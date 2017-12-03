@@ -5,8 +5,20 @@ module.exports = function(server, redis) {
   let recordId = null;
 
   io.on('connection', (socket) => {
+    socket.room = 'default';
+    socket.join('default');
+
+    socket.changeRoom = (room) => {
+      socket.broadcast.to(socket.room).emit('left', socket.username);
+      socket.leave(socket.room);
+
+      socket.room = room;
+      socket.join(room);
+      socket.broadcast.to(room).emit('joined', socket.username);
+    };
+
     socket.on('key', (key) => {
-      socket.broadcast.emit('key', key);
+      socket.broadcast.to(socket.room).emit('key', key);
 
       if (recordId) {
         redis.rpush(recordId, JSON.stringify(key));
@@ -15,7 +27,11 @@ module.exports = function(server, redis) {
 
     socket.on('joined', (username) => {
       socket.username = username;
-      socket.broadcast.emit('joined', username);
+      socket.broadcast.to(socket.room).emit('joined', username);
+    });
+
+    socket.on('join', (room) => {
+      socket.changeRoom(room);
     });
 
     socket.on('kick', (username) => {
@@ -36,22 +52,22 @@ module.exports = function(server, redis) {
     });
 
     socket.on('record', () => {
-      socket.broadcast.emit('startRecording');
+      socket.broadcast.to(socket.room).emit('startRecording');
       socket.emit('startRecording');
       recordId = Date.now();
     });
 
     socket.on('stopRecording', () => {
-      socket.broadcast.emit('stopRecording', recordId);
+      socket.broadcast.to(socket.room).emit('stopRecording', recordId);
       socket.emit('stopRecording', recordId);
       recordId = null;
     });
 
     socket.on('disconnect', () => {
       if (socket.kicked) {
-        socket.broadcast.emit('kicked', socket.username);
+        socket.broadcast.to(socket.room).emit('kicked', socket.username);
       } else {
-        socket.broadcast.emit('left', socket.username);
+        socket.broadcast.to(socket.room).emit('left', socket.username);
       }
     });
   });

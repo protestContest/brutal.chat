@@ -62,6 +62,15 @@ class App extends React.PureComponent {
         position: 'relative',
         alignSelf: 'flex-start',
         left: '-1000px'
+      },
+      room: {
+        position: 'absolute',
+        top: '4px',
+        left: '4px',
+        background: borderColor,
+        color: 'white',
+        fontFamily: 'monospace',
+        padding: '0 6px 2px 4px'
       }
     };
 
@@ -73,8 +82,13 @@ class App extends React.PureComponent {
       }
     });
 
+    const roomTitle = (this.props.room && this.props.room !== 'default')
+      ? <div style={styles.room}>{this.props.room}</div>
+      : null;
+
     return (
       <div ref='container' style={styles.container} onClick={this.focus}>
+        {roomTitle}
         {items}
         <input autoFocus={true} autoComplete='off' autoCorrect='off' autoCapitalize='off' ref='input' onKeyUp={this.onKeyUp} style={styles.input} />
       </div>
@@ -87,6 +101,7 @@ function compareMessages(a, b) {
 }
 
 const mapStateToProps = (state) => ({
+  room: state.room,
   items: [
     ...state.messages.map(message => ({...message, type: 'message'})),
     ...state.events.map(event => ({...event, type: 'event'})),

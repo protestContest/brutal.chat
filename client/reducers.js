@@ -138,6 +138,12 @@ export default function(state, action) {
       ]
     };
 
+  case types.SET_ROOM:
+    return {
+      ...state,
+      room: action.payload
+    };
+
   default:
     return state;
   }
