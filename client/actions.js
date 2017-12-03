@@ -1,4 +1,5 @@
 import { parseCommand } from './util';
+import sockets from './sockets';
 
 export const types = {
   RECEIVE_KEY: 'RECEIVE_KEY',
@@ -118,5 +119,8 @@ export function setRoom(room) {
 }
 
 export function enter() {
-  return { type: types.ENTER };
+  return (dispatch, getState) => {
+    sockets.init(dispatch, getState);
+    dispatch({ type: types.ENTER });
+  };
 }
