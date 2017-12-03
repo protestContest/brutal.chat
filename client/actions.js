@@ -15,7 +15,8 @@ export const types = {
   RECORD_STARTED: 'RECORD_STARTED',
   STOP_RECORD: 'STOP_RECORD',
   RECORD_STOPPED: 'RECORD_STOPPED',
-  SET_ROOM: 'SET_ROOM'
+  SET_ROOM: 'SET_ROOM',
+  ENTER: 'ENTER'
 };
 
 export function receiveKey(keyInfo) {
@@ -114,4 +115,8 @@ export function setRoom(room) {
     window.socket.emit('join', room);
     dispatch({ type: types.SET_ROOM, payload: room });
   }
+}
+
+export function enter() {
+  return { type: types.ENTER };
 }

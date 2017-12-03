@@ -144,6 +144,12 @@ export default function(state, action) {
       room: action.payload
     };
 
+  case types.ENTER:
+    return {
+      ...state,
+      welcome: false
+    };
+
   default:
     return state;
   }

@@ -29,6 +29,8 @@ export function getDefaultState(recordItems, recordStart) {
     events: [ initialEvent ],
     recordStart: recordStart || null,
     recordItems: recordItems || null,
-    appState: 'normal'
+    appState: 'normal',
+    welcome: true,
+    room: 'default'
   };
 }
