@@ -30,7 +30,6 @@ module.exports = {
   devtool: 'source-map',
   plugins: [
     new webpack.optimize.OccurrenceOrderPlugin(),
-    new webpack.optimize.UglifyJsPlugin(),
     new webpack.DefinePlugin({
       'process.env': JSON.stringify('production')
     })
