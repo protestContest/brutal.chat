@@ -79,6 +79,7 @@ export function changeUsername(username) {
   return (dispatch, getState) => {
     const { user } = getState();
     window.socket.emit('nick', { oldNick: user, newNick: username });
+    window.sessionStorage.setItem('user', username);
     dispatch({ type: types.CHANGE_USERNAME, payload: username });
   };
 }
