@@ -4,7 +4,10 @@ import * as actions from './actions';
 
 export default {
   init: (dispatch, getState) => {
-    const { user } = getState();
+    const { user, room } = getState();
+
+    console.log(user);
+    console.log(room);
 
     window.socket = io();
     window.socket.on('key', (key) => dispatch(actions.receiveKey(key)));
@@ -17,6 +20,6 @@ export default {
     window.socket.on('numUsers', numUsers => dispatch(actions.setNumUsers(numUsers)));
     window.socket.on('nick', nicks => dispatch(actions.usernameChanged(nicks.oldNick, nicks.newNick)));
 
-    window.socket.emit('joined', user);
+    window.socket.emit('joined', { username: user, room });
   }
 };

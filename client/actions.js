@@ -125,8 +125,11 @@ export function recordStopped(timestamp) {
 export function setRoom(room) {
   room = room.toLowerCase().trim().replace("'", "");
   if (room.length === 0) return;
+
   return (dispatch) => {
     window.socket.emit('join', room);
+    const roomUrl = (room === 'default') ? '/' : `/${room}`;
+    window.history.replaceState({}, `${room} | Brutal`, roomUrl);
     dispatch({ type: types.SET_ROOM, payload: room });
   }
 }

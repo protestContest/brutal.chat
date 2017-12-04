@@ -31,9 +31,9 @@ module.exports = function(server, redis) {
       }
     });
 
-    socket.on('joined', (username) => {
-      socket.room = 'default';
-      socket.join('default');
+    socket.on('joined', ({ username, room }) => {
+      socket.room = room || 'default';
+      socket.join(socket.room);
 
       redis.hincrby('numUsers', socket.room, 1, (err, numUsers) => {
         socket.username = username;

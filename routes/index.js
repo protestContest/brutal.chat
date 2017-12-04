@@ -2,8 +2,9 @@ const express = require('express');
 const router = express.Router();
 const redis = require('redis').createClient(process.env.REDIS_URL);
 
-router.get('/', function(req, res) {
-  res.render('index');
+router.get('/:room?', function(req, res) {
+  const room = req.params.room || 'default';
+  res.render('index', { room });
 });
 
 router.get('/chat/:recordId', function(req, res) {

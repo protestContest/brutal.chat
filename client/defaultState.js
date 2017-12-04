@@ -1,19 +1,13 @@
 import { getUserName } from './util';
 
-export function getDefaultState(recordItems, recordStart) {
+export function getDefaultState(room) {
   const username = getUserName();
 
-  const initialEvent = (recordItems)
-    ? {
-      id: 'event-1',
-      timestamp: recordStart,
-      content: `Recording #${recordStart}`
-    }
-    : {
-      id: 'event-1',
-      timestamp: Date.now(),
-      content: `Welcome ${username}`
-    };
+  const initialEvent = {
+    id: 'event-1',
+    timestamp: Date.now(),
+    content: `Welcome ${username}`
+  };
 
   return {
     messages: [
@@ -28,10 +22,10 @@ export function getDefaultState(recordItems, recordStart) {
     user: username,
     numUsers: 1,
     events: [ initialEvent ],
-    recordStart: recordStart || null,
-    recordItems: recordItems || null,
+    recordStart: null,
+    recordItems: null,
     appState: 'normal',
-    welcome: true,
-    room: 'default'
+    welcome: room === 'default',
+    room: room || 'default'
   };
 }

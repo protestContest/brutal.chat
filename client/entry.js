@@ -6,10 +6,15 @@ import thunkMiddleware from 'redux-thunk';
 import reducer from './reducers';
 import App from './components/App';
 import { getDefaultState } from './defaultState';
+import { enter } from './actions';
 
-let store = createStore(reducer, getDefaultState(), applyMiddleware(thunkMiddleware));
 
 document.addEventListener('DOMContentLoaded', () => {
+  const room = document.querySelector('meta[name="room"]').attributes.content.value;
+  const store = createStore(reducer, getDefaultState(room), applyMiddleware(thunkMiddleware));
+  if (room !== 'default') {
+    store.dispatch(enter());
+  }
   render((
     <Provider store={store}>
       <App />

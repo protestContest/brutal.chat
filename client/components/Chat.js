@@ -8,7 +8,7 @@ class Chat extends React.PureComponent {
   constructor(props) {
     super(props);
     this.state = { timeout: null };
-    this.onKeyUp = this.onKeyUp.bind(this);
+    this.onKey = this.onKey.bind(this);
     this.focus = this.focus.bind(this);
   }
 
@@ -27,7 +27,7 @@ class Chat extends React.PureComponent {
     this.refs.input.click();
   }
 
-  onKeyUp(event) {
+  onKey(event) {
     if (event.key === 'Enter') {
       this.props.endMessage();
     }
@@ -107,7 +107,7 @@ class Chat extends React.PureComponent {
         {roomTitle}
         {items}
         <div style={styles.users}>{numUsers}</div>
-        <input autoFocus={true} autoComplete='off' autoCorrect='off' autoCapitalize='off' ref='input' onKeyUp={this.onKeyUp} style={styles.input} />
+        <input autoFocus={true} autoComplete='off' autoCorrect='off' autoCapitalize='off' ref='input' onKeyDown={this.onKey} style={styles.input} />
       </div>
     );
   }
