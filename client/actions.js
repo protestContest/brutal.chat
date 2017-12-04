@@ -142,5 +142,10 @@ export function enter() {
 }
 
 export function setNumUsers(numUsers) {
-  return { type: types.SET_NUM_USERS, payload: numUsers };
+  return (dispatch, getState) => {
+    const { room } = getState();
+    const roomName = (room === 'default') ? '' : room;
+    window.document.title = `[${numUsers}] ${roomName} | Brutal`;
+    dispatch({ type: types.SET_NUM_USERS, payload: numUsers });
+  };
 }
