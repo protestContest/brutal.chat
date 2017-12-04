@@ -2,7 +2,8 @@ const socketIo = require('socket.io');
 
 module.exports = function(server, redis) {
   const io = socketIo(server);
-  let recordId = null;
+  // let recordId = null;
+  let recordIds = {};
 
   io.on('connection', (socket) => {
     socket.room = 'default';
@@ -20,8 +21,8 @@ module.exports = function(server, redis) {
     socket.on('key', (key) => {
       socket.broadcast.to(socket.room).emit('key', key);
 
-      if (recordId) {
-        redis.rpush(recordId, JSON.stringify(key));
+      if (recordIds[socket.room]) {
+        redis.rpush(recordIds[socket.room], JSON.stringify(key));
       }
     });
 
@@ -54,13 +55,13 @@ module.exports = function(server, redis) {
     socket.on('record', () => {
       socket.broadcast.to(socket.room).emit('startRecording');
       socket.emit('startRecording');
-      recordId = Date.now();
+      recordIds[socket.room] = `${socket.room}-${Date.now()}`;
     });
 
     socket.on('stopRecording', () => {
-      socket.broadcast.to(socket.room).emit('stopRecording', recordId);
-      socket.emit('stopRecording', recordId);
-      recordId = null;
+      socket.broadcast.to(socket.room).emit('stopRecording', recordIds[socket.room]);
+      socket.emit('stopRecording', recordIds[socket.room]);
+      delete recordIds[socket.room];
     });
 
     socket.on('disconnect', () => {

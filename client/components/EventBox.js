@@ -13,7 +13,7 @@ class EventBox extends React.PureComponent {
 
     return (
       <div style={styles}>
-        &mdash; {this.props.event.content} &mdash;
+        &mdash; <span dangerouslySetInnerHTML={{ __html: this.props.event.content }} /> &mdash;
       </div>
     );
   }

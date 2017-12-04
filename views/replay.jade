@@ -1,7 +1,7 @@
 doctype html
 html
   head
-    title Brutal
+    title= title
     meta(name='viewport', content='width=device-width, initial-scale=1, user-scalable=no')
     meta(name='apple-mobile-web-app-capable', content='yes')
     meta(name='apple-mobile-web-app-status-bar-style', content='black')
@@ -17,6 +17,13 @@ html
     link(rel='apple-touch-icon', sizes='180x180', href='/apple-icon-180x180.png')
     link(rel='stylesheet', href='/style.css')
     script(src='/socket.io/socket.io.js')
-    script(src='/app.js')
-  body
-    #react-root
+  body.replay
+    .container
+      .event-box &mdash; Begin Transmission &mdash;
+      each message in messages
+        .message
+          .message-box.box
+            .title= message.author
+            .text= message.text
+            .subtitle= message.date
+      .event-box &mdash; End of Transmission &mdash;

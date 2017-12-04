@@ -17,13 +17,15 @@ class Welcome extends React.Component {
         fontFamily: 'monospace'
       },
       child: {
-        width: '500px'
+        maxWidth: '500px'
       },
       button: {
+        display: 'block',
         background: 'none',
         border: '4px solid black',
         fontFamily: 'monospace',
         fontSize: '1.5em',
+        maxWidth: '94vw',
         width: '20em',
         height: '3em',
         textAlign: 'center',
@@ -34,7 +36,7 @@ class Welcome extends React.Component {
     return (
       <div style={styles.container}>
         <h1>Brutal Chat</h1>
-        <p style={styles.child}>Brutal Chat is a real-time text chat. It's a space where the oppression of modern technology is always evident. Where messages are instantly forgotten, unless explicitly recorded. Where every mistake is exposed, but fleeting. A space to be brutally honest.</p>
+        <p style={styles.child}>Brutal Chat is a real-time text chat. It's a space that reflects oppression of modern technology. Where messages are instantly forgotten, unless explicitly recorded. Where every mistake is exposed, but fleeting. A space to be brutally honest.</p>
         <p style={styles.child}>Here are some special things you can type to help you out:</p>
         <ul style={styles.child}>
           <li>"/join [room]" &mdash; change to a different chat room</li>

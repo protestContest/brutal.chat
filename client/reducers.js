@@ -133,7 +133,7 @@ export default function(state, action) {
         {
           id: `recordend-${Date.now()}`,
           timestamp: Date.now(),
-          content: `Recording finished: ${action.payload}`
+          content: `Recording finished: <a target='_blank' href='/chat/${action.payload}'>${action.payload}</a>`
         }
       ]
     };
