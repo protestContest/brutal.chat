@@ -9,6 +9,7 @@ module.exports = function(server, redis) {
       const oldRoom = socket.room;
       socket.broadcast.to(oldRoom).emit('left', socket.username);
       socket.leave(oldRoom);
+      redis.srem(oldRoom, socket.username);
       redis.hincrby('numUsers', oldRoom, -1, (err, numUsers) => {
         socket.emit('numUsers', numUsers)
         socket.broadcast.to(oldRoom).emit('numUsers', numUsers)
@@ -20,6 +21,10 @@ module.exports = function(server, redis) {
       redis.hincrby('numUsers', room, 1, (err, numUsers) => {
         socket.emit('numUsers', numUsers)
         socket.broadcast.to(room).emit('numUsers', numUsers)
+      });
+      redis.sadd(room, socket.username);
+      redis.smembers(room, (err, members) => {
+        socket.emit('users', members);
       });
     };
 
@@ -33,13 +38,17 @@ module.exports = function(server, redis) {
 
     socket.on('joined', ({ username, room }) => {
       socket.room = room || 'default';
+      socket.username = username;
       socket.join(socket.room);
+      socket.broadcast.to(socket.room).emit('joined', username);
 
       redis.hincrby('numUsers', socket.room, 1, (err, numUsers) => {
-        socket.username = username;
-        socket.broadcast.to(socket.room).emit('joined', username);
         socket.broadcast.to(socket.room).emit('numUsers', numUsers);
         socket.emit('numUsers', numUsers);
+      });
+      redis.sadd(socket.room, username);
+      redis.smembers(socket.room, (err, members) => {
+        socket.emit('users', members);
       });
     });
 
@@ -83,7 +92,7 @@ module.exports = function(server, redis) {
     socket.on('disconnect', () => {
       const oldRoom = socket.room;
       redis.hincrby('numUsers', oldRoom, -1, (err, numUsers) => {
-        if (err) console.log(err);
+        redis.srem(oldRoom, socket.username);
         if (socket.kicked) {
           socket.broadcast.to(oldRoom).emit('kicked', socket.username);
         } else {

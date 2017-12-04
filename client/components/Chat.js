@@ -9,9 +9,11 @@ export const MESSAGE_TIMEOUT = 3000;
 class Chat extends React.PureComponent {
   constructor(props) {
     super(props);
-    this.state = { timeout: null };
+    this.state = { timeout: null, showUsers: false };
     this.onKey = this.onKey.bind(this);
     this.focus = this.focus.bind(this);
+    this.showUsers = this.showUsers.bind(this);
+    this.hideUsers = this.hideUsers.bind(this);
   }
 
   componentDidMount() {
@@ -22,6 +24,14 @@ class Chat extends React.PureComponent {
     setTimeout(() => {
       this.refs.container.scrollTop = this.refs.container.scrollHeight;
     }, 50);
+  }
+
+  showUsers() {
+    this.setState({ showUsers: true });
+  }
+
+  hideUsers() {
+    this.setState({ showUsers: false });
   }
 
   focus() {
@@ -80,7 +90,7 @@ class Chat extends React.PureComponent {
         padding: '0 6px 2px 4px',
         zIndex: 1
       },
-      users: {
+      userCount: {
         position: 'absolute',
         top: '4px',
         right: '4px',
@@ -88,6 +98,19 @@ class Chat extends React.PureComponent {
         color: 'white',
         fontFamily: 'monospace',
         padding: '0 6px 0px 4px'
+      },
+      userList: {
+        display: (this.state.showUsers) ? 'block' : 'none',
+        position: 'absolute',
+        top: '17px',
+        right: '4px',
+        background: borderColor,
+        color: 'white',
+        fontFamily: 'monospace',
+        padding: '0 6px 0px 4px'
+      },
+      userName: {
+        textAlign: 'right'
       }
     };
 
@@ -107,11 +130,14 @@ class Chat extends React.PureComponent {
       ? 'No one here'
       : `${this.props.numUsers} here`;
 
+    const userNames = this.props.users.map(user => <div style={styles.userName} key={`user-${user}`}>{user}</div>);
+
     return (
       <div ref='container' style={styles.container} onClick={this.focus}>
         {roomTitle}
         {items}
-        <div style={styles.users}>{numUsers}</div>
+        <div style={styles.userCount} onMouseEnter={this.showUsers} onMouseOut={this.hideUsers}>{numUsers}</div>
+        <div style={styles.userList}>{userNames}</div>
         <input autoFocus={true} autoComplete='off' autoCorrect='off' autoCapitalize='off' ref='input' onKeyDown={this.onKey} style={styles.input} />
       </div>
     );
@@ -125,6 +151,7 @@ function compareMessages(a, b) {
 const mapStateToProps = (state) => ({
   room: state.room,
   numUsers: state.numUsers,
+  users: state.users,
   items: [
     ...state.messages.map(message => ({...message, type: 'message'})),
     ...state.events.map(event => ({...event, type: 'event'})),

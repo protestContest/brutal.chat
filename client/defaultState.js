@@ -21,6 +21,7 @@ export function getDefaultState(room) {
     inputMessage: null,
     user: username,
     numUsers: 1,
+    users: [],
     events: [ initialEvent ],
     recordStart: null,
     recordItems: null,

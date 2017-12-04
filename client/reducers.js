@@ -43,6 +43,10 @@ export default function(state, action) {
           timestamp: Date.now(),
           content: `${action.payload} joined`
         }
+      ],
+      users: [
+        ...state.users,
+        action.payload
       ]
     };
 
@@ -56,7 +60,14 @@ export default function(state, action) {
           timestamp: Date.now(),
           content: `${action.payload} left`
         }
-      ]
+      ],
+      users: state.users.filter(user => user !== action.payload)
+    };
+
+  case types.SET_USERS:
+    return {
+      ...state,
+      users: action.payload
     };
 
   case types.INVALIDATE_INPUT:
