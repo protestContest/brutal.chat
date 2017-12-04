@@ -20,7 +20,8 @@ export const types = {
   SET_ROOM: 'SET_ROOM',
   ENTER: 'ENTER',
   SET_NUM_USERS: 'SET_NUM_USERS',
-  SET_USERS: 'SET_USERS'
+  SET_USERS: 'SET_USERS',
+  SHOW_ROOMS: 'SHOW_ROOMS'
 };
 
 export function receiveKey(keyInfo) {
@@ -133,6 +134,16 @@ export function setRoom(room) {
     window.history.replaceState({}, `${room} | Brutal`, roomUrl);
     dispatch({ type: types.SET_ROOM, payload: room });
   }
+}
+
+export function requestRooms() {
+  return () => {
+    window.socket.emit('roomlist');
+  };
+}
+
+export function showRooms(rooms) {
+  return { type: types.SHOW_ROOMS, payload: rooms };
 }
 
 export function enter() {

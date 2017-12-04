@@ -42,6 +42,7 @@ class Welcome extends React.Component {
         <ul style={styles.child}>
           <li>"/join [room]" &mdash; change to a different chat room</li>
           <li>"/leave" &mdash; return to the default chat room</li>
+          <li>"/rooms" &mdash; get a list of rooms</li>
           <li>"/record" &mdash; begin recording the conversation</li>
           <li>"/stop" &mdash; stop recording</li>
           <li>"/nick" &mdash; get a new nickname</li>

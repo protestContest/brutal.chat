@@ -178,6 +178,29 @@ export default function(state, action) {
       ]
     };
 
+  case types.SHOW_ROOMS:
+    let rooms = [];
+    for (let room in action.payload) {
+      if (room !== 'default' && parseInt(action.payload[room]) > 0) {
+        rooms.push(`${room} (${action.payload[room]})`);
+      }
+    }
+    const roomStr = (rooms.length > 0)
+      ? 'Rooms: ' + rooms.join(', ')
+      : 'No rooms yet';
+
+    return {
+      ...state,
+      events: [
+        ...state.events,
+        {
+          id: `roomlist-${Date.now()}`,
+          timestamp: Date.now(),
+          content: roomStr
+        }
+      ]
+    }
+
   case types.ENTER:
     return {
       ...state,

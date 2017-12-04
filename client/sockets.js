@@ -20,6 +20,7 @@ export default {
     window.socket.on('numUsers', numUsers => dispatch(actions.setNumUsers(numUsers)));
     window.socket.on('nick', nicks => dispatch(actions.usernameChanged(nicks.oldNick, nicks.newNick)));
     window.socket.on('users', users => dispatch(actions.setUsers(users)));
+    window.socket.on('roomlist', rooms => dispatch(actions.showRooms(rooms)));
 
     window.socket.emit('joined', { username: user, room });
   }

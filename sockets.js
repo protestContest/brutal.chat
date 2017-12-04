@@ -36,6 +36,12 @@ module.exports = function(server, redis) {
       }
     });
 
+    socket.on('roomlist', () => {
+      redis.hgetall('numUsers', (err, rooms) => {
+        socket.emit('roomlist', rooms);
+      });
+    });
+
     socket.on('joined', ({ username, room }) => {
       socket.room = room || 'default';
       socket.username = username;
@@ -91,6 +97,8 @@ module.exports = function(server, redis) {
 
     socket.on('disconnect', () => {
       const oldRoom = socket.room;
+      if (!oldRoom) return;
+
       redis.hincrby('numUsers', oldRoom, -1, (err, numUsers) => {
         redis.srem(oldRoom, socket.username);
         if (socket.kicked) {
