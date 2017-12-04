@@ -154,7 +154,17 @@ export default function(state, action) {
   case types.SET_ROOM:
     return {
       ...state,
-      room: action.payload
+      room: action.payload,
+      events: [
+        ...state.events,
+        {
+          id: `welcome-${Date.now()}`,
+          timestamp: Date.now(),
+          content: (action.payload === 'default') 
+            ? 'Welcome back'
+            : `Welcome to ${action.payload}`
+        }
+      ]
     };
 
   case types.ENTER:

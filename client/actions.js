@@ -123,6 +123,8 @@ export function recordStopped(timestamp) {
 }
 
 export function setRoom(room) {
+  room = room.toLowerCase().trim().replace("'", "");
+  if (room.length === 0) return;
   return (dispatch) => {
     window.socket.emit('join', room);
     dispatch({ type: types.SET_ROOM, payload: room });

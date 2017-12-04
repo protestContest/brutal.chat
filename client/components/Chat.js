@@ -72,7 +72,8 @@ class Chat extends React.PureComponent {
         background: borderColor,
         color: 'white',
         fontFamily: 'monospace',
-        padding: '0 6px 2px 4px'
+        padding: '0 6px 2px 4px',
+        zIndex: 1
       },
       users: {
         position: 'absolute',
