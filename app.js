@@ -9,6 +9,14 @@ const routes = require('./routes/index');
 
 const app = express();
 
+app.get('*', (req, res, next) => {
+  if (req.headers['x-forwarded-proto'] !== 'https' && process.env.NODE_ENV === "production") {
+    res.redirect('https://brutal.chat' + req.url);
+  } else {
+    next();
+  }
+});
+
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
