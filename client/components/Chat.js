@@ -4,6 +4,8 @@ import { sendKey, endMessage, invalidateInput } from '../actions';
 import MessageBox from './MessageBox';
 import EventBox from './EventBox';
 
+export const MESSAGE_TIMEOUT = 3000;
+
 class Chat extends React.PureComponent {
   constructor(props) {
     super(props);
@@ -45,7 +47,10 @@ class Chat extends React.PureComponent {
       this.props.onKey(event.key);
     }
 
-    this.setState({ timeout: setTimeout(this.props.invalidateInput, 3000) });
+    this.setState({
+      timeout: setTimeout(this.props.invalidateInput, MESSAGE_TIMEOUT),
+      timeoutEnd: Date.now() + MESSAGE_TIMEOUT
+    });
   }
 
   render() {
@@ -90,7 +95,7 @@ class Chat extends React.PureComponent {
       if (item.type === 'event') {
         return <EventBox key={`key-${item.id}`} event={item.id} />;
       } else {
-        return <MessageBox key={`message-${item.id}`} message={item.id} />;
+        return <MessageBox key={`message-${item.id}`} message={item.id} timeout={this.state.timeoutEnd} />;
       }
     });
 

@@ -160,7 +160,7 @@ export default function(state, action) {
         {
           id: `welcome-${Date.now()}`,
           timestamp: Date.now(),
-          content: (action.payload === 'default') 
+          content: (action.payload === 'default')
             ? 'Welcome back'
             : `Welcome to ${action.payload}`
         }

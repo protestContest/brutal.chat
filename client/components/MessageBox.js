@@ -1,14 +1,45 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import { MESSAGE_TIMEOUT } from './Chat';
 
 class MessageBox extends React.PureComponent {
+  constructor(props) {
+    super(props);
+    this.state = { interval: null, percentLeft: 1 };
+  }
+
+  componentDidMount() {
+    if (!this.props.ownMessage) return;
+
+    const that = this;
+    this.setState({
+      interval: setInterval(() => {
+        const timeLeft = this.props.timeout - Date.now();
+        const percentLeft = timeLeft / MESSAGE_TIMEOUT;
+        if (percentLeft < 0) {
+          clearInterval(that.state.interval);
+          that.setState({ percentLeft: 0, interval: null });
+        } else {
+          that.setState({ percentLeft });
+        }
+      }, 100)
+    })
+  }
+
   render() {
-    const borderColor = (this.props.message.recorded) ? 'red' : 'black';
+    const opacity = (this.props.ownMessage && this.props.isInput)
+      ? (1 - this.state.percentLeft) * 0.5 + 0.5
+      : 1;
+
+    const borderColor = (this.props.message.recorded)
+      ? `rgba(255, 0, 0, ${opacity}`
+      : `rgba(0, 0, 0, ${opacity})`;
+
     const styles = {
       container: {
         margin: '1em 0',
         position: 'relative',
-        alignSelf: (this.props.message.author === this.props.user)
+        alignSelf: (this.props.ownMessage)
           ? 'flex-start'
           : ''
       },
@@ -45,10 +76,14 @@ class MessageBox extends React.PureComponent {
 }
 
 const mapStateToProps = (state, ownProps) => {
+  const message = state.messages.find((message) => message.id === ownProps.message);
   return ({
-    message: state.messages.find((message) => message.id === ownProps.message),
+    message: message,
     user: state.user,
-    recorded: ownProps.recorded
+    recorded: ownProps.recorded,
+    timeout: ownProps.timeout,
+    ownMessage: message.author === state.user,
+    isInput: message.id === state.inputMessage
   });
 };
 
