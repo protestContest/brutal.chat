@@ -97,13 +97,15 @@ class Chat extends React.PureComponent {
       ? <div style={styles.room}>{this.props.room}</div>
       : null;
 
-    const numUsers = <div style={styles.users}>{this.props.numUsers} here</div>;
+    const numUsers = (this.props.numUsers < 2)
+      ? 'No one here'
+      : `${this.props.numUsers} here`;
 
     return (
       <div ref='container' style={styles.container} onClick={this.focus}>
         {roomTitle}
         {items}
-        {numUsers}
+        <div style={styles.users}>{numUsers}</div>
         <input autoFocus={true} autoComplete='off' autoCorrect='off' autoCapitalize='off' ref='input' onKeyUp={this.onKeyUp} style={styles.input} />
       </div>
     );
