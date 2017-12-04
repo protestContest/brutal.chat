@@ -31,6 +31,7 @@ server.on('error', onError);
 server.on('listening', onListening);
 
 const redisClient = require('redis').createClient(process.env.REDIS_URL);
+redisClient.del('numUsers');
 
 sockets(server, redisClient);
 

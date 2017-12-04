@@ -150,6 +150,12 @@ export default function(state, action) {
       welcome: false
     };
 
+  case types.SET_NUM_USERS:
+    return {
+      ...state,
+      numUsers: action.payload
+    };
+
   default:
     return state;
   }

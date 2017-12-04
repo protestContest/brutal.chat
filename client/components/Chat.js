@@ -71,6 +71,15 @@ class Chat extends React.PureComponent {
         color: 'white',
         fontFamily: 'monospace',
         padding: '0 6px 2px 4px'
+      },
+      users: {
+        position: 'absolute',
+        top: '4px',
+        right: '4px',
+        background: borderColor,
+        color: 'white',
+        fontFamily: 'monospace',
+        padding: '0 6px 0px 4px'
       }
     };
 
@@ -86,10 +95,13 @@ class Chat extends React.PureComponent {
       ? <div style={styles.room}>{this.props.room}</div>
       : null;
 
+    const numUsers = <div style={styles.users}>{this.props.numUsers} here</div>;
+
     return (
       <div ref='container' style={styles.container} onClick={this.focus}>
         {roomTitle}
         {items}
+        {numUsers}
         <input autoFocus={true} autoComplete='off' autoCorrect='off' autoCapitalize='off' ref='input' onKeyUp={this.onKeyUp} style={styles.input} />
       </div>
     );
@@ -102,6 +114,7 @@ function compareMessages(a, b) {
 
 const mapStateToProps = (state) => ({
   room: state.room,
+  numUsers: state.numUsers,
   items: [
     ...state.messages.map(message => ({...message, type: 'message'})),
     ...state.events.map(event => ({...event, type: 'event'})),

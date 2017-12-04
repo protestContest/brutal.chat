@@ -26,6 +26,7 @@ export function getDefaultState(recordItems, recordStart) {
     ],
     inputMessage: null,
     user: username,
+    numUsers: 1,
     events: [ initialEvent ],
     recordStart: recordStart || null,
     recordItems: recordItems || null,

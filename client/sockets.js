@@ -1,19 +1,20 @@
 /* globals io */
 
-import { receiveKey, userJoined, userLeft, beKicked, userKicked, recordStarted, recordStopped } from './actions';
+import * as actions from './actions';
 
 export default {
   init: (dispatch, getState) => {
     const { user } = getState();
 
     window.socket = io();
-    window.socket.on('key', (key) => dispatch(receiveKey(key)));
-    window.socket.on('joined', (user) => dispatch(userJoined(user)));
-    window.socket.on('left', (user) => dispatch(userLeft(user)));
-    window.socket.on('kick', () => dispatch(beKicked()));
-    window.socket.on('kicked', (user) => dispatch(userKicked(user)));
-    window.socket.on('startRecording', () => dispatch(recordStarted()));
-    window.socket.on('stopRecording', (ts) => dispatch(recordStopped(ts)));
+    window.socket.on('key', (key) => dispatch(actions.receiveKey(key)));
+    window.socket.on('joined', (user) => dispatch(actions.userJoined(user)));
+    window.socket.on('left', (user) => dispatch(actions.userLeft(user)));
+    window.socket.on('kick', () => dispatch(actions.beKicked()));
+    window.socket.on('kicked', (user) => dispatch(actions.userKicked(user)));
+    window.socket.on('startRecording', () => dispatch(actions.recordStarted()));
+    window.socket.on('stopRecording', (ts) => dispatch(actions.recordStopped(ts)));
+    window.socket.on('numUsers', numUsers => dispatch(actions.setNumUsers(numUsers)));
 
     window.socket.emit('joined', user);
   }

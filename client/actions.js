@@ -17,7 +17,8 @@ export const types = {
   STOP_RECORD: 'STOP_RECORD',
   RECORD_STOPPED: 'RECORD_STOPPED',
   SET_ROOM: 'SET_ROOM',
-  ENTER: 'ENTER'
+  ENTER: 'ENTER',
+  SET_NUM_USERS: 'SET_NUM_USERS'
 };
 
 export function receiveKey(keyInfo) {
@@ -123,4 +124,8 @@ export function enter() {
     sockets.init(dispatch, getState);
     dispatch({ type: types.ENTER });
   };
+}
+
+export function setNumUsers(numUsers) {
+  return { type: types.SET_NUM_USERS, payload: numUsers };
 }

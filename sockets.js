@@ -2,20 +2,25 @@ const socketIo = require('socket.io');
 
 module.exports = function(server, redis) {
   const io = socketIo(server);
-  // let recordId = null;
   let recordIds = {};
 
   io.on('connection', (socket) => {
-    socket.room = 'default';
-    socket.join('default');
-
     socket.changeRoom = (room) => {
-      socket.broadcast.to(socket.room).emit('left', socket.username);
-      socket.leave(socket.room);
+      const oldRoom = socket.room;
+      socket.broadcast.to(oldRoom).emit('left', socket.username);
+      socket.leave(oldRoom);
+      redis.hincrby('numUsers', oldRoom, -1, (err, numUsers) => {
+        socket.emit('numUsers', numUsers)
+        socket.broadcast.to(oldRoom).emit('numUsers', numUsers)
+      });
 
       socket.room = room;
       socket.join(room);
       socket.broadcast.to(room).emit('joined', socket.username);
+      redis.hincrby('numUsers', room, 1, (err, numUsers) => {
+        socket.emit('numUsers', numUsers)
+        socket.broadcast.to(room).emit('numUsers', numUsers)
+      });
     };
 
     socket.on('key', (key) => {
@@ -27,8 +32,15 @@ module.exports = function(server, redis) {
     });
 
     socket.on('joined', (username) => {
-      socket.username = username;
-      socket.broadcast.to(socket.room).emit('joined', username);
+      socket.room = 'default';
+      socket.join('default');
+
+      redis.hincrby('numUsers', socket.room, 1, (err, numUsers) => {
+        socket.username = username;
+        socket.broadcast.to(socket.room).emit('joined', username);
+        socket.broadcast.to(socket.room).emit('numUsers', numUsers);
+        socket.emit('numUsers', numUsers);
+      });
     });
 
     socket.on('join', (room) => {
@@ -65,11 +77,18 @@ module.exports = function(server, redis) {
     });
 
     socket.on('disconnect', () => {
-      if (socket.kicked) {
-        socket.broadcast.to(socket.room).emit('kicked', socket.username);
-      } else {
-        socket.broadcast.to(socket.room).emit('left', socket.username);
-      }
+      const oldRoom = socket.room;
+      redis.hincrby('numUsers', oldRoom, -1, (err, numUsers) => {
+        if (err) console.log(err);
+        if (socket.kicked) {
+          socket.broadcast.to(oldRoom).emit('kicked', socket.username);
+        } else {
+          socket.broadcast.to(oldRoom).emit('left', socket.username);
+        }
+
+        socket.emit('numUsers', numUsers)
+        socket.broadcast.to(oldRoom).emit('numUsers', numUsers)
+      });
     });
   });
 };
