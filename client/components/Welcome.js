@@ -17,7 +17,8 @@ class Welcome extends React.Component {
         fontFamily: 'monospace'
       },
       child: {
-        maxWidth: '500px'
+        maxWidth: '500px',
+        textAlign: 'justify'
       },
       button: {
         display: 'block',
