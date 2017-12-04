@@ -6,7 +6,7 @@
     "start": "node ./bin/www",
     "dev": "nodemon ./bin/www | grep -v built",
     "lint": "eslint .",
-    "build": "webpack --config webpack.config.prod.js",
+    "build": "webpack -p --config webpack.config.prod.js",
     "bot": "node ./bin/bot",
     "postinstall": "npm run build"
   },
