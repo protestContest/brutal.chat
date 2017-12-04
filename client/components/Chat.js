@@ -17,7 +17,9 @@ class Chat extends React.PureComponent {
   }
 
   componentWillReceiveProps() {
-    this.refs.container.scrollTop = this.refs.container.scrollHeight;
+    setTimeout(() => {
+      this.refs.container.scrollTop = this.refs.container.scrollHeight;
+    }, 50);
   }
 
   focus() {

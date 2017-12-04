@@ -960,7 +960,6 @@ module.exports = {
     'hotheaded',
     'hot',
     'hour',
-    'housef',
     'huffy',
     'huge',
     'humane',

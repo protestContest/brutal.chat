@@ -82,6 +82,19 @@ export default function(state, action) {
       ]
     };
 
+  case types.USERNAME_CHANGED:
+    return {
+      ...state,
+      events: [
+        ...state.events,
+        {
+          id: `nick-${Date.now()}`,
+          timestamp: Date.now(),
+          content: `${action.payload.oldNick} is now ${action.payload.newNick}`
+        }
+      ]
+    };
+
   case types.USER_KICKED:
     return {
       ...state,

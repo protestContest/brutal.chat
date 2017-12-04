@@ -9,6 +9,7 @@ export const types = {
   USER_LEFT: 'USER_LEFT',
   INVALIDATE_INPUT: 'INVALIDATE_INPUT',
   CHANGE_USERNAME: 'CHANGE_USERNAME',
+  USERNAME_CHANGED: 'USERNAME_CHANGED',
   KICK: 'KICK',
   BE_KICKED: 'BE_KICKED',
   USER_KICKED: 'USER_KICKED',
@@ -75,7 +76,15 @@ export function invalidateInput() {
 }
 
 export function changeUsername(username) {
-  return { type: types.CHANGE_USERNAME, payload: username };
+  return (dispatch, getState) => {
+    const { user } = getState();
+    window.socket.emit('nick', { oldNick: user, newNick: username });
+    dispatch({ type: types.CHANGE_USERNAME, payload: username });
+  };
+}
+
+export function usernameChanged(oldNick, newNick) {
+  return { type: types.USERNAME_CHANGED, payload: { oldNick, newNick } };
 }
 
 export function kick(username) {

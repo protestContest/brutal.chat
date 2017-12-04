@@ -15,6 +15,7 @@ export default {
     window.socket.on('startRecording', () => dispatch(actions.recordStarted()));
     window.socket.on('stopRecording', (ts) => dispatch(actions.recordStopped(ts)));
     window.socket.on('numUsers', numUsers => dispatch(actions.setNumUsers(numUsers)));
+    window.socket.on('nick', nicks => dispatch(actions.usernameChanged(nicks.oldNick, nicks.newNick)));
 
     window.socket.emit('joined', user);
   }

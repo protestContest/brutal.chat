@@ -64,6 +64,10 @@ module.exports = function(server, redis) {
       }
     });
 
+    socket.on('nick', (nicks) => {
+      socket.broadcast.to(socket.room).emit('nick', nicks);
+    });
+
     socket.on('record', () => {
       socket.broadcast.to(socket.room).emit('startRecording');
       socket.emit('startRecording');
