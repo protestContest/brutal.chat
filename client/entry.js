@@ -11,6 +11,7 @@ import { enter } from './actions';
 
 document.addEventListener('DOMContentLoaded', () => {
   const room = document.querySelector('meta[name="room"]').attributes.content.value;
+  // console.log(room);
   const store = createStore(reducer, getDefaultState(room), applyMiddleware(thunkMiddleware));
   if (room !== 'default') {
     store.dispatch(enter());

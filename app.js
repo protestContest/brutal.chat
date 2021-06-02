@@ -19,7 +19,7 @@ app.get('*', (req, res, next) => {
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
-app.set('view engine', 'jade');
+app.set('view engine', 'pug');
 
 // development hot module server
 if (app.get('env') === 'development') {
@@ -27,10 +27,9 @@ if (app.get('env') === 'development') {
   const webpackDevMiddleware = require('webpack-dev-middleware');
   const webpackHotMiddleware = require('webpack-hot-middleware');
 
-  const config = require('./webpack.config.dev');
+  const config = require('./webpack.config');
   const compiler = webpack(config);
   app.use(webpackDevMiddleware(compiler, {
-    hot: true,
     publicPath: config.output.publicPath,
     stats: { colors: true }
   }));
