@@ -48,7 +48,7 @@ class Welcome extends React.Component {
           <li>"/nick" &mdash; get a new nickname</li>
         </ul>
         <p>
-          <button style={styles.button} onClick={this.props.enter}>Enter</button>
+          <button style={styles.button} onClick={this.props.enter} autofocus="true">Enter</button>
         </p>
       </div>
     );
