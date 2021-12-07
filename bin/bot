@@ -12,9 +12,6 @@ const messages = [
   'Has anyone seen any good movies recently?',
   'how about this Seattle vibe',
   'Hello?',
-  'what are you for halloween?',
-  'I\'m a dolphin',
-  'VOTING 4 TRUMP!!11!!!!'
 ];
 
 function getUsername() {
