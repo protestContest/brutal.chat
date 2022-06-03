@@ -15,13 +15,6 @@ defmodule BrutalChatWeb.Router do
     plug :accepts, ["json"]
   end
 
-  scope "/", BrutalChatWeb do
-    pipe_through :browser
-
-    get "/", PageController, :index
-    live "/:room", ChatLive
-  end
-
   if Mix.env() in [:dev, :test] do
     import Phoenix.LiveDashboard.Router
 
@@ -30,5 +23,12 @@ defmodule BrutalChatWeb.Router do
 
       live_dashboard "/dashboard", metrics: BrutalChatWeb.Telemetry
     end
+  end
+
+  scope "/", BrutalChatWeb do
+    pipe_through :browser
+
+    get "/", PageController, :index
+    live "/:room", ChatLive
   end
 end

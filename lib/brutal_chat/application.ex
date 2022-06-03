@@ -9,7 +9,8 @@ defmodule BrutalChat.Application do
       BrutalChatWeb.Telemetry,
       {Phoenix.PubSub, name: BrutalChat.PubSub},
       BrutalChatWeb.Endpoint,
-      BrutalChatWeb.Presence
+      BrutalChatWeb.Presence,
+      BrutalChat.Rooms
     ]
 
     opts = [strategy: :one_for_one, name: BrutalChat.Supervisor]

@@ -47,6 +47,7 @@ defmodule BrutalChatWeb do
         layout: {BrutalChatWeb.LayoutView, "live.html"}
 
       unquote(view_helpers())
+      alias Phoenix.LiveView
       alias Phoenix.LiveView.JS
     end
   end

@@ -2640,6 +2640,12 @@ defmodule BrutalChat.Names do
     adjective <> animal
   end
 
+  @max_offset 1_000_000_000_000
+  def new_username(key) do
+    offset = :rand.uniform(@max_offset)
+    {offset, hash_username("#{key}:#{offset}")}
+  end
+
   def find_offset(key, adjective, animal) when adjective in @adjectives and animal in @animals do
     find_offset(key, adjective, animal, 0)
   end
