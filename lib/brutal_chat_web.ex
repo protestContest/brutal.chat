@@ -47,6 +47,7 @@ defmodule BrutalChatWeb do
         layout: {BrutalChatWeb.LayoutView, "live.html"}
 
       unquote(view_helpers())
+      alias Phoenix.LiveView.JS
     end
   end
 
@@ -73,6 +74,7 @@ defmodule BrutalChatWeb do
       import Plug.Conn
       import Phoenix.Controller
       import Phoenix.LiveView.Router
+      import BrutalChatWeb.Plugs
     end
   end
 
