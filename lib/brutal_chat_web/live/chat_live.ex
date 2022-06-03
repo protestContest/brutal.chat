@@ -26,6 +26,7 @@ defmodule BrutalChatWeb.ChatLive do
       |> assign(:timeout, nil)
       |> assign(:room, room)
       |> assign(:users, [])
+      |> assign(:page_title, room)
 
     {:ok, socket}
   end
@@ -39,7 +40,8 @@ defmodule BrutalChatWeb.ChatLive do
      |> leave_room(old_room)
      |> join_room(room)
      |> assign(:room, room)
-     |> assign(:users, list_users(room))}
+     |> assign(:users, list_users(room))
+     |> set_page_title()}
   end
 
   @impl LiveView
@@ -148,7 +150,8 @@ defmodule BrutalChatWeb.ChatLive do
     {:noreply,
      socket
      |> assign(:users, current_users)
-     |> assign(:events, join_events ++ leave_events ++ events)}
+     |> assign(:events, join_events ++ leave_events ++ events)
+     |> set_page_title()}
   end
 
   @impl LiveView
@@ -425,5 +428,10 @@ defmodule BrutalChatWeb.ChatLive do
       List.first(metas)
       |> Map.get(:username)
     end)
+  end
+
+  defp set_page_title(socket) do
+    %{assigns: %{users: users, room: room}} = socket
+    assign(socket, :page_title, "[#{Enum.count(users)}] #{room}")
   end
 end
