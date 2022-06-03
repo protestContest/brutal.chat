@@ -2632,11 +2632,15 @@ defmodule BrutalChat.Names do
     end
   end
 
-  @adj_salt 194_053_823_522
-  @anm_salt 116_174_203_481
+  defp adj_salt,
+    do: Application.get_env(:brutal_chat, BrutalChat.Names, []) |> Keyword.get(:adj_salt, 194_053_825_308)
+
+  defp anm_salt,
+    do: Application.get_env(:brutal_chat, BrutalChat.Names, []) |> Keyword.get(:anm_salt, 116_174_203_605)
+
   def hash_username(key) do
-    adjective = Enum.at(@adjectives, Integer.mod(Hash.fnv(key, @adj_salt), Enum.count(@adjectives)))
-    animal = Enum.at(@animals, Integer.mod(Hash.fnv(key, @anm_salt), Enum.count(@animals)))
+    adjective = Enum.at(@adjectives, Integer.mod(Hash.fnv(key, adj_salt()), Enum.count(@adjectives)))
+    animal = Enum.at(@animals, Integer.mod(Hash.fnv(key, anm_salt()), Enum.count(@animals)))
     adjective <> animal
   end
 
@@ -2652,8 +2656,8 @@ defmodule BrutalChat.Names do
 
   defp find_offset(key, adj, anm, offset) do
     hash_key = "#{key}:#{offset}"
-    adjective = Enum.at(@adjectives, Integer.mod(Hash.fnv(hash_key, @adj_salt), Enum.count(@adjectives)))
-    animal = Enum.at(@animals, Integer.mod(Hash.fnv(hash_key, @anm_salt), Enum.count(@animals)))
+    adjective = Enum.at(@adjectives, Integer.mod(Hash.fnv(hash_key, adj_salt()), Enum.count(@adjectives)))
+    animal = Enum.at(@animals, Integer.mod(Hash.fnv(hash_key, anm_salt()), Enum.count(@animals)))
 
     if {adjective, animal} != {adj, anm} do
       find_offset(key, adj, anm, offset + 1)
@@ -2663,7 +2667,7 @@ defmodule BrutalChat.Names do
   end
 
   def find_salts(key, adj, anm) do
-    find_salts(key, adj, anm, @adj_salt, @anm_salt)
+    find_salts(key, adj, anm, adj_salt(), anm_salt())
   end
 
   defp find_salts(key, adj, anm, adj_salt, anm_salt) do
