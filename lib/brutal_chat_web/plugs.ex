@@ -28,6 +28,8 @@ defmodule BrutalChatWeb.Plugs do
   end
 
   defp get_ip(conn) do
+    Logger.info("X-Forwarded-For: #{inspect(get_req_header(conn, "x-forwarded-for"))}")
+
     forwarded_for =
       conn
       |> get_req_header("x-forwarded-for")
