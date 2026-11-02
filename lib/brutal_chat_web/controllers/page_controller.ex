@@ -2,7 +2,10 @@ defmodule BrutalChatWeb.PageController do
   use BrutalChatWeb, :controller
 
   def index(conn, _params) do
-    render(conn, "index.html")
+    conn
+    |> put_view(BrutalChatWeb.PageView)
+    |> put_layout(html: {BrutalChatWeb.LayoutView, :app})
+    |> render(:index)
   end
 
   def deny(conn, _params) do

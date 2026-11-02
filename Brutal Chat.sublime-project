@@ -3,7 +3,17 @@
 	[
 		{
 			"path": ".",
-			"folder_exclude_patterns": ["_build", "deps", ".elixir_ls"]
+			"folder_exclude_patterns": ["_build", "deps", ".elixir_ls"],
 		}
-	]
+	],
+	"settings":
+	{
+		"LSP":
+		{
+			"lsp-elixir":
+			{
+				"enabled": true
+			}
+		}
+	},
 }

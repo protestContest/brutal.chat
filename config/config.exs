@@ -10,7 +10,7 @@ import Config
 # Configures the endpoint
 config :brutal_chat, BrutalChatWeb.Endpoint,
   url: [host: "localhost"],
-  render_errors: [view: BrutalChatWeb.ErrorView, accepts: ~w(html json), layout: false],
+  render_errors: [formats: [html: BrutalChatWeb.ErrorView, json: BrutalChatWeb.ErrorView], layout: false],
   pubsub_server: BrutalChat.PubSub,
   live_view: [signing_salt: "Y3ik3yM4"]
 

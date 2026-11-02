@@ -1,3 +1,5 @@
 defmodule BrutalChatWeb.PageView do
-  use BrutalChatWeb, :view
+  use BrutalChatWeb, :html
+
+  embed_templates "../templates/page/*"
 end

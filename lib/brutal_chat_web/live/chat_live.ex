@@ -1,5 +1,6 @@
 defmodule BrutalChatWeb.ChatLive do
   use BrutalChatWeb, :live_view
+
   alias BrutalChat.Names
   alias BrutalChat.Rooms
   alias BrutalChatWeb.Endpoint

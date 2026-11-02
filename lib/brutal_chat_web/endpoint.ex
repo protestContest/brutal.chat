@@ -17,7 +17,7 @@ defmodule BrutalChatWeb.Endpoint do
     at: "/",
     from: :brutal_chat,
     gzip: true,
-    only: ~w(assets fonts images favicon.ico robots.txt)
+    only: BrutalChatWeb.static_paths()
 
   if code_reloading? do
     socket "/phoenix/live_reload/socket", Phoenix.LiveReloader.Socket

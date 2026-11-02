@@ -8,22 +8,22 @@
 
     <meta name="apple-mobile-web-app-capable" content="yes" />
     <meta name="apple-mobile-web-app-status-bar-style" content="black" />
-    <link rel="icon" href={Routes.static_path(@conn, "/images/icon-192x192.png")} />
-    <link rel="apple-touch-icon" sizes="57x57" href={Routes.static_path(@conn, "/images/icon-57x57.png")} />
-    <link rel="apple-touch-icon" sizes="60x60" href={Routes.static_path(@conn, "/images/icon-60x60.png")} />
-    <link rel="apple-touch-icon" sizes="72x72" href={Routes.static_path(@conn, "/images/icon-72x72.png")} />
-    <link rel="apple-touch-icon" sizes="76x76" href={Routes.static_path(@conn, "/images/icon-76x76.png")} />
-    <link rel="apple-touch-icon" sizes="114x114" href={Routes.static_path(@conn, "/images/icon-114x114.png")} />
-    <link rel="apple-touch-icon" sizes="120x120" href={Routes.static_path(@conn, "/images/icon-120x120.png")} />
-    <link rel="apple-touch-icon" sizes="144x144" href={Routes.static_path(@conn, "/images/icon-144x144.png")} />
-    <link rel="apple-touch-icon" sizes="152x152" href={Routes.static_path(@conn, "/images/icon-152x152.png")} />
-    <link rel="apple-touch-icon" sizes="180x180" href={Routes.static_path(@conn, "/images/icon-180x180.png")} />
-    <link rel="apple-touch-icon" sizes="192x192" href={Routes.static_path(@conn, "/images/icon-192x192.png")} />
+    <link rel="icon" href={~p"/images/icon-192x192.png"} />
+    <link rel="apple-touch-icon" sizes="57x57" href={~p"/images/icon-57x57.png"} />
+    <link rel="apple-touch-icon" sizes="60x60" href={~p"/images/icon-60x60.png"} />
+    <link rel="apple-touch-icon" sizes="72x72" href={~p"/images/icon-72x72.png"} />
+    <link rel="apple-touch-icon" sizes="76x76" href={~p"/images/icon-76x76.png"} />
+    <link rel="apple-touch-icon" sizes="114x114" href={~p"/images/icon-114x114.png"} />
+    <link rel="apple-touch-icon" sizes="120x120" href={~p"/images/icon-120x120.png"} />
+    <link rel="apple-touch-icon" sizes="144x144" href={~p"/images/icon-144x144.png"} />
+    <link rel="apple-touch-icon" sizes="152x152" href={~p"/images/icon-152x152.png"} />
+    <link rel="apple-touch-icon" sizes="180x180" href={~p"/images/icon-180x180.png"} />
+    <link rel="apple-touch-icon" sizes="192x192" href={~p"/images/icon-192x192.png"} />
 
-    <%= csrf_meta_tag() %>
-    <%= live_title_tag assigns[:page_title] || "", suffix: " | Brutal" %>
-    <link phx-track-static rel="stylesheet" href={Routes.static_path(@conn, "/assets/app.css")}/>
-    <script defer phx-track-static type="text/javascript" src={Routes.static_path(@conn, "/assets/app.js")}></script>
+    <meta name="csrf-token" content={get_csrf_token()} />
+    <.live_title suffix=" | Brutal">{assigns[:page_title] || ""}</.live_title>
+    <link phx-track-static rel="stylesheet" href={~p"/assets/app.css"}/>
+    <script defer phx-track-static type="text/javascript" src={~p"/assets/app.js"}></script>
   </head>
   <body>
     <%= @inner_content %>

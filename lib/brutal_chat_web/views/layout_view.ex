@@ -1,9 +1,7 @@
 defmodule BrutalChatWeb.LayoutView do
-  use BrutalChatWeb, :view
+  use BrutalChatWeb, :html
 
-  # Phoenix LiveDashboard is available only in development by default,
-  # so we instruct Elixir to not warn if the dashboard route is missing.
-  @compile {:no_warn_undefined, {Routes, :live_dashboard_path, 2}}
+  embed_templates "../templates/layout/*"
 
   def room(), do: ""
 end
